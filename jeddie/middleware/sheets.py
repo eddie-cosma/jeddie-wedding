@@ -42,14 +42,14 @@ class RsvpList:
         self.sheet.values().update(spreadsheetId=SPREADSHEET_ID, range=f'{SHEET_NAME}!A2:K', valueInputOption='RAW',
                                    body=body).execute()
 
-    def select(self, column: str, value: str) -> pandas.DataFrame:
+    def select(self, column: str, value: str) -> str:
         """Select invitee details by looking up a value in a column."""
 
-        return self._database[self._database[column] == value]
+        return self._database[self._database[column] == value].to_csv()
 
-    def update(self, column: str, value: str, where_column: str, where_value: str) -> pandas.DataFrame:
+    def update(self, column: str, value: str, where_column: str, where_value: str) -> str:
         """Update a datapoint in a column at the selected index."""
 
         self._database.loc[self._database[where_column] == where_value, column] = value
         self._set_range()
-        return self._database[self._database[where_column] == where_value]
+        return self._database[self._database[where_column] == where_value].to_csv()

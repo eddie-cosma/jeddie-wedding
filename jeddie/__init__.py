@@ -14,4 +14,4 @@ def test():
     from middleware import sheets
 
     guest_list = sheets.RsvpList()
-    return guest_list.update("Postal Code", "90210", "Invitation Code", "339028").to_csv()
+    return guest_list.update("Postal Code", "90210", "Invitation Code", "339028")
