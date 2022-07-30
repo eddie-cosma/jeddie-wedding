@@ -8,21 +8,23 @@ nav {
     min-width: 800px;
     max-width: 1000px;
     margin: 0px auto;
-    padding: 0px 40px;
     font-family: Helvetica, Arial, sans-serif;
-    text-align: justify;
-    -moz-text-align-last: justify;
-    text-align-last: justify;
+    position: fixed;
+    list-style: none;
 }
 
-nav a {
-    color: #ff2844;
-    text-decoration: none;
+nav li {
     display: inline-block;
+    text-align: center;
     text-transform: uppercase;
-    margin: 1.5em 0;
+    margin: 1.5em 2em;
     border-bottom: 2px solid transparent;
     transition: 0.3s;
+}
+
+nav li a {
+    color: #ff2844;
+    text-decoration: none;
 }
 
 nav a:hover {
@@ -36,4 +38,31 @@ main {
     max-width: 1200px;
     margin: 0px auto;
     padding: 0px 40px;
+}
+
+div#announcement {
+    animation: 2s anim-lineUp ease-out 1;
+    font-size: 36pt;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    padding-top: 50vh;
+    height: 50vh;
+}
+
+@keyframes anim-lineUp {
+    0% {
+        opacity: 0;
+        transform: translateY(-80%);
+    }
+    20% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
 }

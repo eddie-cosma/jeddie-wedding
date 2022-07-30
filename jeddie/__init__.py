@@ -1,17 +1,15 @@
-import flask
 from flask import Flask
 
-app = Flask(__name__)
+from .database import Base, Session
+from jeddie.routes import frontend_guest
 
 
-@app.route('/')
-def hello():
-    return flask.render_template("base.html", title="Home")
+def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(frontend_guest)
 
+    @app.teardown_appcontext
+    def cleanup(resp_or_exc):
+        Session.remove()
 
-@app.route('/test')
-def test():
-    from middleware import sheets
-
-    guest_list = sheets.RsvpList()
-    return guest_list.update("Postal Code", "90210", "Invitation Code", "339028")
+    return app

@@ -2,7 +2,6 @@ import pathlib
 
 import pandas
 import pandas as pd
-
 from apiclient import discovery
 from flask import current_app
 from google.oauth2 import service_account
