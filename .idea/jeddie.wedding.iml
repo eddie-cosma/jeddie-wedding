@@ -5,8 +5,9 @@
       <sourceFolder url="file://$MODULE_DIR$/jeddie" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/instance" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/instance" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (jeddie.wedding)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9 (jeddie-wedding)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

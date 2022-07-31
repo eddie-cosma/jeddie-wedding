@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
 from database import Base, engine
+from .helpers import random_id
 
 
 class Guest(Base):
@@ -19,6 +20,9 @@ class Party(Base):
     __tablename__ = "party"
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
+    code = Column(String(6), nullable=False, default=random_id, unique=True, index=True)
+    rsvp_responded = Column(Boolean, default=False)
+    rsvp_plus_one_avail = Column(Integer, nullable=False)
     address_id = Column(Integer, ForeignKey("address.id"))
     address = relationship("Address")
     guests = relationship("Guest", back_populates="party")
