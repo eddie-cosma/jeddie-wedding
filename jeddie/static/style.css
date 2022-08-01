@@ -1,52 +1,60 @@
+:root {
+    --primary-bg: #C0ABA7;
+    --primary-fg: #150100;
+    --accent: #720B0A;
+    --accent-alt: #C2917A;
+    --alt-bg: #E8E2DF;
+}
+
 body {
-    color: #000000;
-    background-color: #FFFFFF;
+    color: var(--primary-fg);
+    background-color: var(--alt-bg);
+    margin: 0;
+    padding: 0;
 }
 
 nav {
-    width: 80%;
-    min-width: 800px;
-    max-width: 1000px;
-    margin: 0px auto;
+    background-color: var(--primary-bg);
+    width: calc(100% - 200px);
+    padding: 0 100px;
+    margin: 0;
     font-family: Helvetica, Arial, sans-serif;
     position: fixed;
-    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
-nav li {
-    display: inline-block;
+nav a {
+    padding: 30px 0;
     text-align: center;
     text-transform: uppercase;
-    margin: 1.5em 2em;
-    border-bottom: 2px solid transparent;
-    transition: 0.3s;
-}
-
-nav li a {
-    color: #ff2844;
+    display: block;
+    flex-grow: 1;
+    color: var(--primary-fg);
     text-decoration: none;
 }
 
 nav a:hover {
-    color: #ff2844;
-    border-bottom: 2px solid #ff2844;
+    color: var(--alt-bg);
+    background-color: var(--accent-alt);
+    text-decoration: none;
 }
 
 main {
     width: 80%;
-    min-width: 800px;
-    max-width: 1200px;
-    margin: 0px auto;
-    padding: 0px 40px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
 div#announcement {
-    animation: 2s anim-lineUp ease-out 1;
+    animation: 1s anim-lineUp ease-out 1;
     font-size: 36pt;
     font-family: Helvetica, Arial, sans-serif;
     text-align: center;
     padding-top: 50vh;
     height: 50vh;
+    color: var(--accent)
 }
 
 @keyframes anim-lineUp {
@@ -57,12 +65,20 @@ div#announcement {
     20% {
         opacity: 0;
     }
-    50% {
-        opacity: 1;
-        transform: translateY(0%);
-    }
     100% {
         opacity: 1;
         transform: translateY(0%);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    nav {
+        flex-direction: column;
+        padding: 0;
+        width: 100%;
+    }
+
+    nav a {
+        padding: 10px 0;
     }
 }
