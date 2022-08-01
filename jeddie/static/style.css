@@ -1,24 +1,36 @@
 :root {
-    --primary-bg: #C0ABA7;
-    --primary-fg: #150100;
+    --primary-foreground: #C0ABA7;
+    --primary-background: #150100;
     --accent: #720B0A;
     --accent-alt: #C2917A;
-    --alt-bg: #E8E2DF;
+    --alt-background: #E8E2DF;
+}
+
+@font-face {
+    font-family: TofinoProRegular;
+    src: url("Tofino_Pro/Tofino Pro Reg Subset OTFs/TofinoProPersonal-Regular.otf")
+}
+
+@font-face {
+    font-family: TofinoProWideSemibold;
+    src: url("Tofino_Pro/Tofino Pro Wide Subset OTFs/TofinoProPersonalWide-Semibold.otf")
 }
 
 body {
-    color: var(--primary-fg);
-    background-color: var(--alt-bg);
+    color: var(--primary-foreground);
+    background-color: var(--primary-background);
+    font-family: TofinoProRegular, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
+    position: absolute;
+    width: 100%;
 }
 
 nav {
-    background-color: var(--primary-bg);
+    background-color: var(--primary-foreground);
     width: calc(100% - 200px);
     padding: 0 100px;
     margin: 0;
-    font-family: Helvetica, Arial, sans-serif;
     position: fixed;
     display: flex;
     flex-direction: row;
@@ -31,30 +43,30 @@ nav a {
     text-transform: uppercase;
     display: block;
     flex-grow: 1;
-    color: var(--primary-fg);
+    color: var(--accent);
     text-decoration: none;
+    transition: background-color 150ms, color 150ms;
 }
 
 nav a:hover {
-    color: var(--alt-bg);
+    color: var(--alt-background);
     background-color: var(--accent-alt);
     text-decoration: none;
 }
 
 main {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0;
 }
 
 div#announcement {
     animation: 1s anim-lineUp ease-out 1;
     font-size: 36pt;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: TofinoProWideSemibold, Helvetica, Arial, sans-serif;
     text-align: center;
-    padding-top: 50vh;
-    height: 50vh;
-    color: var(--accent)
+    margin-top: 30vh;
+    color: var(--alt-background);
 }
 
 @keyframes anim-lineUp {
