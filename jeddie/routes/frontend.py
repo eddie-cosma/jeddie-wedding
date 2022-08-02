@@ -2,7 +2,7 @@ import json
 
 from flask import render_template, Blueprint
 
-from database import Session
+from database import get_db
 from database.model import Guest
 
 bp = Blueprint('simple_page', __name__, url_prefix='/')
@@ -15,6 +15,7 @@ def hello():
 
 @bp.route('/test')
 def test():
-    values = Session.query(Guest).all()
+    session = get_db()
+    values = session.query(Guest).all()
     results = [{'guest': value.email, 'party': value.party.name} for value in values]
     return json.dumps(results), 200, {'content_type': 'application/json'}

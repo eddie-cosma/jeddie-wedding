@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
-from database import Base, engine
+from . import Base
 from .helpers import random_id
 
 
@@ -36,6 +36,3 @@ class Address(Base):
     state = Column(String(30), nullable=True)
     postal_code = Column(String(10), nullable=False)
     country = Column(String(20), nullable=False)
-
-
-Base.metadata.create_all(bind=engine)
