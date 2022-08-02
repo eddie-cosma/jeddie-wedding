@@ -5,7 +5,7 @@ from exceptions import MissingConfigException
 
 CONFIG_PATH = os.getenv('CONFIG_PATH')
 if not CONFIG_PATH:
-    raise MissingConfigException
+    raise MissingConfigException('Please set the CONFIG_PATH environment variable to the json config file.')
 
 
 class ConfigLoader:
