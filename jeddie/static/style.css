@@ -54,6 +54,10 @@ nav a:hover {
     text-decoration: none;
 }
 
+nav a#show-menu {
+    display: none;
+}
+
 main {
     width: 100%;
     margin: 0 auto;
@@ -86,11 +90,21 @@ div#announcement {
 @media screen and (max-width: 800px) {
     nav {
         flex-direction: column;
+        position: relative;
         padding: 0;
         width: 100%;
     }
 
     nav a {
         padding: 10px 0;
+        display: none;
+    }
+
+    nav a#show-menu {
+        display: block;
+    }
+
+    nav.responsive a {
+        display: block;
     }
 }

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Jen ❤️ Eddie : {{ title }}</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='style.js') }}"></script>
 </head>
 <body>
     <nav>
+        <a href="#" id="show-menu" onclick="toggle_menu_visibility()">Menu</a>
         <a href="#">Home</a>
         <a href="#">Our Story</a>
         <a href="#">Wedding</a>
