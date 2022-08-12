@@ -5,12 +5,42 @@ from flask import render_template, Blueprint
 from database import get_db
 from database.model import Guest
 
-bp = Blueprint('simple_page', __name__, url_prefix='/')
+bp = Blueprint('jeddie', __name__, url_prefix='/')
 
 
 @bp.route('/')
-def hello():
-    return render_template("base.html", title="Home")
+def index():
+    return render_template("home.html")
+
+
+@bp.route('/story')
+def story():
+    return render_template("story.html")
+
+
+@bp.route('/wedding')
+def wedding():
+    return render_template("wedding.html")
+
+
+@bp.route('/rsvp')
+def rsvp():
+    return render_template("rsvp.html")
+
+
+@bp.route('/photos')
+def photos():
+    return render_template("photos.html")
+
+
+@bp.route('/hotel')
+def hotel():
+    return render_template("hotel.html")
+
+
+@bp.route('/registry')
+def registry():
+    return render_template("registry.html")
 
 
 @bp.route('/test')

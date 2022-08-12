@@ -2,25 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Jen ❤️ Eddie : {{ title }}</title>
+    <title>Jen ❤️ Eddie : {% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='style.js') }}"></script>
 </head>
 <body>
     <nav>
         <a href="#" id="show-menu" onclick="toggle_menu_visibility()">Menu</a>
-        <a href="#">Home</a>
-        <a href="#">Our Story</a>
-        <a href="#">Wedding</a>
-        <a href="#">RSVP</a>
-        <a href="#">Photos</a>
-        <a href="#">Hotel</a>
-        <a href="#">Registry</a>
+        <a href="{{ url_for('jeddie.index') }}">Home</a>
+        <a href="{{ url_for('jeddie.story') }}">Our Story</a>
+        <a href="{{ url_for('jeddie.wedding') }}">Wedding</a>
+        <a href="{{ url_for('jeddie.rsvp') }}">RSVP</a>
+        <a href="{{ url_for('jeddie.photos') }}">Photos</a>
+        <a href="{{ url_for('jeddie.hotel') }}">Hotel</a>
+        <a href="{{ url_for('jeddie.registry') }}">Registry</a>
     </nav>
     <main>
-        <div id="announcement">We're getting Married!</div>
-        <h1>Test header</h1>
-        <p>Test paragraph.</p>
+        {% block content %}
+        {% endblock %}
     </main>
 </body>
 </html>

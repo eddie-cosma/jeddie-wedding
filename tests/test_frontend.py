@@ -3,6 +3,9 @@ import pytest
 from . import app, client, runner
 
 
-def test_homepage_connection(client):
-    response = client.get("/")
+@pytest.mark.parametrize('endpoint',
+                         ['/', '/story', '/wedding', '/rsvp',
+                          '/photos', '/hotel', '/registry'])
+def test_basic_page_load(client, endpoint):
+    response = client.get(endpoint)
     assert response.status_code == 200
