@@ -26,12 +26,35 @@ body {
     width: 100%;
 }
 
+div#language {
+    background-color: #333333;
+    color: var(--alt-background);
+    text-align: right;
+    padding: 5px 5px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+div#language svg {
+    height: 18px;
+    width: 18px;
+    margin-bottom: 5px;
+    fill: var(--alt-background);
+    vertical-align: -4px;
+}
+
+div#language a {
+    color: var(--alt-background);
+    text-decoration: none;
+}
+
 nav {
     background-color: var(--primary-foreground);
     width: calc(100% - 200px);
     padding: 0 100px;
     margin: 0;
-    position: fixed;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
