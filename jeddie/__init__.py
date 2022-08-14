@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, g
+from flask import Flask, g, redirect, url_for
 
 from config import config
 
@@ -17,6 +17,11 @@ def create_app():
 
     from jeddie.routes import frontend_bp
     app.register_blueprint(frontend_bp)
+
+    @app.route('/')
+    def index():
+        g.language_code = 'en'
+        return redirect(url_for('jeddie.index'), code=302)
 
     @app.teardown_appcontext
     def cleanup(resp_or_exc):

@@ -20,6 +20,7 @@ body {
     color: var(--primary-foreground);
     background-color: var(--primary-background);
     font-family: TofinoProRegular, Helvetica, Arial, sans-serif;
+    font-size: 12pt;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -29,20 +30,19 @@ body {
 div#language {
     background-color: #333333;
     color: var(--alt-background);
+    font-size: 11pt;
     text-align: right;
-    padding: 5px 5px 0 0;
+    padding: 7px;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-end;
     gap: 8px;
 }
 
 div#language svg {
     height: 18px;
     width: 18px;
-    margin-bottom: 5px;
     fill: var(--alt-background);
-    vertical-align: -4px;
 }
 
 div#language a {
@@ -50,8 +50,13 @@ div#language a {
     text-decoration: none;
 }
 
+div#language a:hover {
+    color: var(--accent-alt);
+}
+
 nav {
     background-color: var(--primary-foreground);
+    font-size: 14pt;
     width: calc(100% - 200px);
     padding: 0 100px;
     margin: 0;
