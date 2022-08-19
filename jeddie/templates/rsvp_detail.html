@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}RSVP{% endblock %}
+{% block content %}
+    <p>Welcome, {{ party.name }}</p>
+    <form method="post">
+        <div id="guests">
+            {% for guest in party.guests %}
+            <h1>Guest {{ loop.index }}</h1>
+                <input type="hidden" name="guest_id" value="{{ guest.id }}">
+                <label for="first_name_{{ guest.id }}">First Name</label> <input type="text" name="first_name" id="first_name_{{ guest.id }}" value="{{ guest.first_name }}" required><br>
+                <label for="last_name_{{ guest.id }}">Last Name</label> <input type="text" name="last_name" id="last_name_{{ guest.id }}" value="{{ guest.last_name }}" required><br>
+                <label for="email_{{ guest.id }}">Email</label> <input type="text" name="email" id="email_{{ guest.id }}" value="{{ guest.email }}"><br>
+                <label for="phone_{{ guest.id }}">Phone</label> <input type="text" name="phone" id="phone_{{ guest.id }}" value="{{ guest.phone }}">
+            {% endfor %}
+        </div>
+        {% set plus_ones = party.total_guests_allowed - (party.guests|count) %}
+        {% if plus_ones %}
+            <p id="add_guests_notice">You may bring {{ plus_ones }} additional guest(s).</p>
+            <input type="button" id="add_guests_button" value="Add Guests" onclick="add_guests({{ plus_ones }})">
+        {% endif %}
+        <input type="submit" value="{{ lang_submit }}">
+    </form>
+{% endblock %}

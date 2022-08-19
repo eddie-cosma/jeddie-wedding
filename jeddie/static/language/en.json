@@ -5,5 +5,7 @@
   "rsvp": "RSVP",
   "photos": "Photos",
   "hotel": "Hotel",
-  "registry": "Registry"
+  "registry": "Registry",
+  "rsvp_code": "RSVP code",
+  "submit": "Submit"
 }

@@ -5,5 +5,7 @@
   "rsvp": "RSVP",
   "photos": "Fotografii",
   "hotel": "Hotel",
-  "registry": "Cadouri"
+  "registry": "Cadouri",
+  "rsvp_code": "Cod RSVP",
+  "submit": "Submit"
 }

@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block title %}RSVP{% endblock %}
 {% block content %}
-
+    <form onsubmit="window.location.href = window.location.href + '/' + document.getElementById('rsvp_code').value; return false;"  action="">
+        <label for="rsvp_code">{{ lang_rsvp_code }}:</label> <input id="rsvp_code" type="text"><br>
+        <input type="submit" value="{{ lang_submit }}">
+    </form>
 {% endblock %}
