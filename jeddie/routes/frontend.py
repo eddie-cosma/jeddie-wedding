@@ -1,9 +1,10 @@
 import json
 
-from flask import g, current_app, render_template, Blueprint, abort, request
+from flask import g, current_app, render_template, Blueprint, abort, request, flash, redirect, url_for
 
 from database import get_db
 from database.model import Guest, Party
+from middleware.recaptcha import verify_recaptcha
 
 bp = Blueprint('jeddie', __name__, url_prefix='/<language_code>')
 
@@ -43,20 +44,20 @@ def wedding():
     return render_template("wedding.html", **g.language)
 
 
-@bp.route('/rsvp')
-def rsvp():
-    if request.method == 'GET':
-        return render_template("rsvp.html", **g.language)
-
-
+@bp.route('/rsvp', methods=['GET', 'POST'])
 @bp.route('/rsvp/<string:rsvp_code>', methods=['GET', 'POST'])
-def rsvp_detail(rsvp_code: str):
+def rsvp(rsvp_code: str = None):
+    recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
+    recaptcha_token = request.form.get('g-recaptcha-response', None)
+    if request.method == 'GET' or not verify_recaptcha(recaptcha_token, request.remote_addr):
+        return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
+
     session = get_db()
-    party = session.query(Party).where(Party.code == rsvp_code).one_or_none()
-    if not party:
-        abort(404)
-    elif request.method == 'GET':
+    if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
         return render_template("rsvp_detail.html", party=party, **g.language)
+    else:
+        flash(g.language.get('lang_invalid_rsvp_code'))
+        return redirect(url_for('jeddie.rsvp'), 302)
 
 
 @bp.route('/photos')

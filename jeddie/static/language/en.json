@@ -7,5 +7,6 @@
   "hotel": "Hotel",
   "registry": "Registry",
   "rsvp_code": "RSVP code",
-  "submit": "Submit"
+  "submit": "Submit",
+  "invalid_rsvp_code": "The RSVP code you submitted is invalid. Please check the spelling and try again."
 }

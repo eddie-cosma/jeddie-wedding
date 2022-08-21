@@ -1,11 +1,24 @@
+function contains_number(t) {
+    var regex = /\d/g;
+    return regex.test(t);
+}
+
 function toggle_menu_visibility() {
     var navbar = document.getElementsByTagName('nav')[0];
     if (navbar.className === '') {
         navbar.className = 'responsive';
-    }
-    else {
+    } else {
         navbar.className = '';
     }
+}
+
+function update_rsvp_form_action() {
+    let rsvp_code = document.getElementById('rsvp_code').value;
+    let current_path = window.location.pathname;
+    if (!contains_number(current_path)) {
+        document.rsvp_form.action = document.rsvp_form.action + '/' + rsvp_code;
+    }
+    document.forms['rsvp_form'].submit();
 }
 
 function add_guests(new_guests) {

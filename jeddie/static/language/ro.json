@@ -7,5 +7,6 @@
   "hotel": "Hotel",
   "registry": "Cadouri",
   "rsvp_code": "Cod RSVP",
-  "submit": "Submit"
+  "submit": "Submit",
+  "invalid_rsvp_code": "Codul RSVP pe care l-ai trimis este nevalid. Verifica ortografia și încearca din nou."
 }

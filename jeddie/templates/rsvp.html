@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% block title %}RSVP{% endblock %}
+{% block head %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}
 {% block content %}
-    <form onsubmit="window.location.href = window.location.href + '/' + document.getElementById('rsvp_code').value; return false;"  action="">
-        <label for="rsvp_code">{{ lang_rsvp_code }}:</label> <input id="rsvp_code" type="text"><br>
-        <input type="submit" value="{{ lang_submit }}">
+    <form name="rsvp_form" action="" method="post">
+        {% if rsvp_code %}
+            <input id="rsvp_code" type="hidden" value="{{ rsvp_code }}"><br>
+        {% else %}
+            <label for="rsvp_code">{{ lang_rsvp_code }}:</label> <input id="rsvp_code" type="text"><br>
+        {% endif %}
+        <div class="g-recaptcha" data-sitekey="{{ site_key }}" data-theme="dark"></div><br>
+        <input type="button" onclick="update_rsvp_form_action();" value="{{ lang_submit }}">
     </form>
 {% endblock %}
