@@ -13,6 +13,9 @@ def verify_recaptcha(token: str, remote_ip: str) -> bool:
     :param remote_ip: the user's IP address
     :return: ``True`` if the token is valid, ``False`` otherwise.
     """
+    if config.BYPASS_RECAPTCHA:
+        return True
+
     if not token:
         return False
 

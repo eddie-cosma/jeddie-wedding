@@ -21,7 +21,7 @@ def pull_lang_code(endpoint, values):
         abort(404)
 
     # add 'lang_' prefix to every key in the json translation file
-    def prefix_lang_dict(translations: dict):
+    def prefix_lang_dict(translations: dict) -> dict:
         return {f'lang_{key}': value for (key, value) in translations.items()}
 
     language_file = f'{current_app.static_folder}/language/{g.language_code}.json'
@@ -52,6 +52,7 @@ def rsvp(rsvp_code: str = None):
     if request.method == 'GET' or not verify_recaptcha(recaptcha_token, request.remote_addr):
         return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
 
+    rsvp_code = rsvp_code or request.form.get('rsvp_code', None)
     session = get_db()
     if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
         return render_template("rsvp_detail.html", party=party, **g.language)

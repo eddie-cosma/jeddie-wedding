@@ -22,4 +22,6 @@ def test_internationalization(client, endpoint):
 def test_landing_page_to_english_redirect(client):
     response = client.get('/')
     assert response.status_code == 302
-    assert 'Redirecting' in response.text
+
+    response = client.get('/', follow_redirects=True)
+    assert 'We\'re getting Married!' in response.text

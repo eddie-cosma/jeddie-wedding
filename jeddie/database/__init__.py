@@ -11,9 +11,7 @@ session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=en
 
 def get_db():
     if 'db' not in g:
-        # TODO: Separate create_all into initialization script
         from .model import Guest, Party, Address
-        Base.metadata.create_all(bind=engine)
         g.db = session()
 
     return g.db
