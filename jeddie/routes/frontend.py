@@ -53,6 +53,7 @@ def rsvp(rsvp_code: str = None):
         return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
 
     rsvp_code = rsvp_code or request.form.get('rsvp_code', None)
+    rsvp_code = rsvp_code.upper()
     session = get_db()
     if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
         return render_template("rsvp_detail.html", party=party, **g.language)

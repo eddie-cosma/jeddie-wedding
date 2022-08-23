@@ -24,14 +24,14 @@ def load_database_test_data(session):
         first_name='John',
         last_name='Doe',
         email='john.doe@example.com',
-        phone='555-123-4567',
+        phone_number='555-123-4567',
         party_id=party_1.id
     )
     guest_2 = Guest(
         first_name='Jane',
         last_name='Roe',
         email='jane.roe@example.com',
-        phone='555-123-4567',
+        phone_number='555-123-4567',
         party_id=party_1.id
     )
     party_2 = Party(
@@ -45,14 +45,14 @@ def load_database_test_data(session):
         first_name='Ben',
         last_name='Smith',
         email='ben.smith@example.com',
-        phone='555-123-4567',
+        phone_number='555-123-4567',
         party_id=party_2.id
     )
     guest_4 = Guest(
         first_name='Becky',
         last_name='Smith',
         email='becky.smith@example.com',
-        phone='555-123-4567',
+        phone_number='555-123-4567',
         party_id=party_2.id
     )
     for item in [address_1, party_1, guest_1, guest_2, party_2, guest_3, guest_4]:
