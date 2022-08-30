@@ -115,6 +115,14 @@ div#announcement {
     }
 }
 
+.hotel-book {
+    float: right;
+}
+
+.hotel-contact {
+
+}
+
 @media screen and (max-width: 800px) {
     nav {
         flex-direction: column;
