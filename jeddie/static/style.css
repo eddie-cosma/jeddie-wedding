@@ -8,12 +8,12 @@
 
 @font-face {
     font-family: TofinoProRegular;
-    src: url("Tofino_Pro/Tofino Pro Reg Subset OTFs/TofinoProPersonal-Regular.otf")
+    src: url("fonts/TofinoProPersonal-Regular.otf")
 }
 
 @font-face {
     font-family: TofinoProWideSemibold;
-    src: url("Tofino_Pro/Tofino Pro Wide Subset OTFs/TofinoProPersonalWide-Semibold.otf")
+    src: url("fonts/TofinoProPersonalWide-Semibold.otf")
 }
 
 body {
@@ -92,12 +92,21 @@ main {
     padding: 0;
 }
 
+img#cover-image-home {
+    width: 100%;
+    height: calc(100vh - 104px);
+    object-fit: cover;
+    object-position: 75% 66%;
+}
+
 div#announcement {
+    position: relative;
+    top: -55vh;
+    width: 100%;
     animation: 1s anim-lineUp ease-out 1;
-    font-size: 36pt;
+    font-size: max(4vw, 20pt);
     font-family: TofinoProWideSemibold, Helvetica, Arial, sans-serif;
     text-align: center;
-    margin-top: 30vh;
     color: var(--alt-background);
 }
 
@@ -115,6 +124,12 @@ div#announcement {
     }
 }
 
+div#gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .hotel-book {
     float: right;
 }
@@ -123,7 +138,7 @@ div#announcement {
 
 }
 
-@media screen and (max-width: 800px) {
+@media only screen and (max-width: 800px) {
     nav {
         flex-direction: column;
         position: relative;
@@ -142,5 +157,10 @@ div#announcement {
 
     nav.responsive a {
         display: block;
+    }
+
+    img#cover-image-home {
+        height: calc(100vh - 37px);
+        max-height: -webkit-fill-available;
     }
 }
