@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Photos{% endblock %}
 {% block content %}
-    <div id="gallery">
-
-    </div>
+    {% for i in range(1,39) %}
+        <img src="{{ url_for("static", filename="images/gallery-%s.jpg" % i) }}" alt="Gallery image {{ i }}">
+    {% endfor %}
 {% endblock %}

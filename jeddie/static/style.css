@@ -7,20 +7,30 @@
 }
 
 @font-face {
-    font-family: TofinoProRegular;
-    src: url("fonts/TofinoProPersonal-Regular.otf")
+    font-family: "Tofino Pro";
+    src: url("fonts/TofinoProPersonal-Regular.otf");
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-    font-family: TofinoProWideSemibold;
-    src: url("fonts/TofinoProPersonalWide-Semibold.otf")
+    font-family: "Tofino Pro Wide";
+    src: url("fonts/TofinoProPersonalWide-Semibold.otf");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Tofino Pro";
+    src: url("fonts/TofinoProPersonal-Bold.otf");
+    font-weight: bold;
+    font-style: normal;
 }
 
 body {
-    color: var(--primary-foreground);
+    color: var(--alt-background);
     background-color: var(--primary-background);
-    font-family: TofinoProRegular, Helvetica, Arial, sans-serif;
-    font-size: 12pt;
+    font-family: "Tofino Pro", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -87,9 +97,28 @@ nav a#show-menu {
 }
 
 main {
-    width: 100%;
+    width: 50em;
     margin: 0 auto;
     padding: 0;
+    font-size: 14pt;
+    line-height: 1.4;
+}
+
+a {
+    color: var(--accent-alt);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+p {
+    margin-top: 10px;
 }
 
 img#cover-image-home {
@@ -105,7 +134,8 @@ div#announcement {
     width: 100%;
     animation: 1s anim-lineUp ease-out 1;
     font-size: max(4vw, 20pt);
-    font-family: TofinoProWideSemibold, Helvetica, Arial, sans-serif;
+    font-family: "Tofino Pro Wide", Helvetica, Arial, sans-serif;
+    font-weight: 600;
     text-align: center;
     color: var(--alt-background);
 }
@@ -131,14 +161,35 @@ div#gallery {
 }
 
 .hotel-book {
-    float: right;
+    width: 100%;
+    text-align: center;
 }
 
-.hotel-contact {
-
+.hotel-book input[type=submit] {
+    font-size: 18pt;
+    background-color: var(--accent);
+    background-image: url('images/button-bg.png');
+    background-repeat: repeat-x;
+    color: var(--alt-background);
+    border: 0;
+    border-radius: 10px;
+    padding: 0.2em;
+    width: 80%;
 }
 
-@media only screen and (max-width: 800px) {
+.hotel-book input[type=submit]:hover {
+    background-image: url('images/button-bg-hover.png');
+    cursor: pointer;
+}
+
+.hotel-map {
+    width: 100%;
+    height: 450px;
+    border: 0;
+    margin: 15px 0;
+}
+
+@media only screen and (max-width: 950px) {
     nav {
         flex-direction: column;
         position: relative;
@@ -157,6 +208,12 @@ div#gallery {
 
     nav.responsive a {
         display: block;
+    }
+
+    main {
+        width: calc(100vw - 4em);
+        padding: 0 2em;
+        font-size: 12pt;
     }
 
     img#cover-image-home {
