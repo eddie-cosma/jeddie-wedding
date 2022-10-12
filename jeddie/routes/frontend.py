@@ -52,7 +52,7 @@ def rsvp(rsvp_code: str = None):
     if request.method == 'GET' or not verify_recaptcha(recaptcha_token, request.remote_addr):
         return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
 
-    rsvp_code = rsvp_code or request.form.get('rsvp_code', None)
+    rsvp_code = rsvp_code or request.form.get('rsvp_code', '')
     rsvp_code = rsvp_code.upper()
     session = get_db()
     if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
