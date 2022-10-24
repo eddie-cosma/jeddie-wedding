@@ -1,3 +1,5 @@
+import sys
+
 from flask import g
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base
@@ -5,7 +7,13 @@ from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base
 from config import config
 
 Base = declarative_base()
-engine = create_engine(config.SQLALCHEMY_DB_STRING, echo=True, future=True)
+
+if 'pytest' in sys.modules:
+    connection_string = "sqlite://"
+else:
+    connection_string = config.SQLALCHEMY_DB_STRING
+
+engine = create_engine(connection_string, echo=True, future=True)
 session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 
