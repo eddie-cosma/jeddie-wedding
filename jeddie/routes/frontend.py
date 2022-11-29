@@ -3,7 +3,7 @@ import json
 from flask import g, current_app, render_template, Blueprint, abort, request, flash, redirect, url_for
 
 from database import get_db
-from database.model import Guest, Party
+from database.model import Guest, Party, Meal
 from middleware.recaptcha import verify_recaptcha
 
 bp = Blueprint('jeddie', __name__, url_prefix='/<language_code>')
@@ -56,7 +56,8 @@ def rsvp(rsvp_code: str = None):
     rsvp_code = rsvp_code.upper()
     session = get_db()
     if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
-        return render_template("rsvp_detail.html", party=party, **g.language)
+        meals = session.query(Meal).all()
+        return render_template("rsvp_detail.html", party=party, meals=meals, **g.language)
     else:
         flash(g.language.get('lang_invalid_rsvp_code'))
         return redirect(url_for('jeddie.rsvp'), 302)

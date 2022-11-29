@@ -7,9 +7,14 @@
             {% for guest in party.guests %}
             <h1>Guest {{ loop.index }}</h1>
                 <input type="hidden" name="guest_id" value="{{ guest.id }}">
-                <label for="first_name_{{ guest.id }}">First Name</label> <input type="text" name="first_name" id="first_name_{{ guest.id }}" value="{{ guest.first_name }}" required><br>
-                <label for="last_name_{{ guest.id }}">Last Name</label> <input type="text" name="last_name" id="last_name_{{ guest.id }}" value="{{ guest.last_name }}" required><br>
+                <label for="first_name_{{ guest.id }}">First name</label> <input type="text" name="first_name" id="first_name_{{ guest.id }}" value="{{ guest.first_name }}" required><br>
+                <label for="last_name_{{ guest.id }}">Last name</label> <input type="text" name="last_name" id="last_name_{{ guest.id }}" value="{{ guest.last_name }}" required><br>
                 <label for="email_{{ guest.id }}">Email</label> <input type="email" name="email" id="email_{{ guest.id }}" value="{{ guest.email }}"><br>
+                <label for="meal_{{ guest.id }}">Meal choice</label><br>
+                {% for meal in meals %}
+                    <input type="radio" id="meal_{{ meal.id }}_{{ guest.id }}" name="meal" value="{{ meal.id }}"> <label for="meal_{{ meal.id }}_{{ guest.id }}">{{ meal.name }}</label><br>
+                {% endfor %}
+                <label for="dietary_restriction_{{ guest.id }}">Dietary restrictions</label><br><textarea name="dietary_restriction" id="dietary_restriction_{{ guest.id }}" rows="3" cols="40" maxlength="140"></textarea>
             {% endfor %}
         </div>
         {% set plus_ones = party.total_guests_allowed - (party.guests|count) %}

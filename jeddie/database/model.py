@@ -15,6 +15,7 @@ class Guest(Base):
     party = relationship('Party', back_populates='guests')
     meal_id = Column(Integer, ForeignKey('meal.id'))
     meal = relationship('Meal')
+    dietary_restriction = Column(String(140), nullable=True)
 
 
 class Party(Base):
