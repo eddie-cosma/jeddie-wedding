@@ -10,16 +10,6 @@
                 <label for="first_name_{{ guest.id }}">First Name</label> <input type="text" name="first_name" id="first_name_{{ guest.id }}" value="{{ guest.first_name }}" required><br>
                 <label for="last_name_{{ guest.id }}">Last Name</label> <input type="text" name="last_name" id="last_name_{{ guest.id }}" value="{{ guest.last_name }}" required><br>
                 <label for="email_{{ guest.id }}">Email</label> <input type="email" name="email" id="email_{{ guest.id }}" value="{{ guest.email }}"><br>
-                <label for="phone_country_{{ guest.id }}">Country Code</label>
-                    <select name="phone_country" class="phone-country" id="phone_country_{{ guest.id }}">
-                        <option value=""></option>
-                        <option value="1"{% if guest.phone_country_code == '1' %} selected="selected"{% endif %}>+1 : United States</option>
-                        <option value="43"{% if guest.phone_country_code == '43' %} selected="selected"{% endif %}>+43 : Austria</option>
-                        <option value="40"{% if guest.phone_country_code == '40' %} selected="selected"{% endif %}>+40 : Romania</option>
-                        <option value="34"{% if guest.phone_country_code == '34' %} selected="selected"{% endif %}>+34 : Spain</option>
-                    </select>
-                <label for="phone_number_{{ guest.id }}">Phone</label> <input type="tel" name="phone_number" id="phone_number_{{ guest.id }}" value="{{ guest.phone_number }}"><br>
-                <input type="checkbox" name="allow_texts" id="allow_texts_{{ guest.id }}"{% if guest.allows_texts %} checked="checked"{% endif %}> <label for="allow_texts_{{ guest.id }}">I would like to receive text messages.</label>
             {% endfor %}
         </div>
         {% set plus_ones = party.total_guests_allowed - (party.guests|count) %}
