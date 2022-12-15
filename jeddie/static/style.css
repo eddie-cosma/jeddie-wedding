@@ -121,16 +121,21 @@ p {
     margin-top: 10px;
 }
 
+div#landing {
+    height: calc(100vh - 122px);
+    width: 100vw;
+}
+
 img#cover-image-home {
+    height: 100%;
     width: 100%;
-    height: calc(100vh - 104px);
     object-fit: cover;
     object-position: 75% 66%;
 }
 
 div#announcement {
     position: relative;
-    top: -55vh;
+    margin-top: -55vh;
     width: 100%;
     animation: 1s anim-lineUp ease-out 1;
     font-size: max(4vw, 20pt);
@@ -216,8 +221,9 @@ div#gallery {
         font-size: 12pt;
     }
 
-    img#cover-image-home {
-        height: calc(100vh - 37px);
+    div#landing {
+        height: calc(100vh - 75px);
+        width: 100vw;
         max-height: -webkit-fill-available;
     }
 }
