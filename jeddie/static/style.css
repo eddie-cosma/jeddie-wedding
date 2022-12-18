@@ -1,3 +1,5 @@
+/* Predefined colors */
+
 :root {
     --primary-foreground: #C0ABA7;
     --primary-background: #150100;
@@ -5,6 +7,8 @@
     --accent-alt: #C2917A;
     --alt-background: #E8E2DF;
 }
+
+/* Custom fonts */
 
 @font-face {
     font-family: "Tofino Pro";
@@ -26,6 +30,8 @@
     font-weight: bold;
     font-style: normal;
 }
+
+/* Base elements */
 
 body {
     color: var(--alt-background);
@@ -121,6 +127,8 @@ p {
     margin-top: 10px;
 }
 
+/* Homepage */
+
 div#landing {
     height: calc(100vh - 122px);
     width: 100vw;
@@ -159,11 +167,27 @@ div#announcement {
     }
 }
 
+/* Our story page */
+
+div#story-flow {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2em;
+}
+
+div#story-flow img {
+    width: 480px;
+}
+
+/* Photos page */
+
 div#gallery {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+/* Hotel page */
 
 .hotel-book {
     width: 100%;
@@ -195,6 +219,8 @@ div#gallery {
 }
 
 @media only screen and (max-width: 950px) {
+    /* Base elements */
+
     nav {
         flex-direction: column;
         position: relative;
@@ -216,14 +242,27 @@ div#gallery {
     }
 
     main {
-        width: calc(100vw - 4em);
+        width: calc(100% - 4em);
         padding: 0 2em;
         font-size: 12pt;
     }
+
+    /* Homepage */
 
     div#landing {
         height: calc(100vh - 75px);
         width: 100vw;
         max-height: -webkit-fill-available;
     }
+
+    /* Our story page */
+
+    div#story-flow {
+        flex-direction: column;
+    }
+
+    div#story-flow img {
+        width: inherit;
+    }
+
 }
