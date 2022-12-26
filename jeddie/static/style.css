@@ -156,7 +156,6 @@ a:hover {
 }
 
 h2 {
-    margin-top: 0;
     margin-bottom: 0;
 }
 
@@ -201,7 +200,8 @@ div#event-flow {
 }
 
 div#event-flow div {
-    padding: max(3vw, 30px);
+    padding: max(3vw, 30px) 0;
+    width: 25vw;
 }
 
 div#event-flow svg {
@@ -292,6 +292,10 @@ div#event-flow svg {
 
     div#event-flow {
         flex-direction: column;
+    }
+
+    div#event-flow div {
+        width: 100%;
     }
 
     div#event-flow svg {
