@@ -206,10 +206,21 @@ div#event-flow svg {
 
 /* Photos page */
 
-div#gallery {
+#gallery {
+    width: 100%;
+}
+
+.gallery-row {
+    height: 40%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+.gallery-image {
+    width: calc(100% * var(--ratio));
+    aspect-ratio: var(--ratio);
 }
 
 /* Hotel page */
@@ -300,6 +311,15 @@ div#gallery {
 
     div#event-flow svg {
         height: 36px;
+    }
+
+    /* Photos page */
+    .gallery-row {
+        flex-direction: column;
+    }
+
+    .gallery-image {
+        width: 100%;
     }
 
 }
