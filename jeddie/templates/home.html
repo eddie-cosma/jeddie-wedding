@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
-{% block pre_main %}
-    <div id="landing">
-        <img src="{{ url_for('static', filename='images/home.jpg') }}" alt="Jen and Eddie" id="cover-image-home">
-        <div id="announcement">We're getting Married!</div>
-    </div>
+{% block main_id %}landing{% endblock %}
+{% block content %}
+    <div id="announcement">We're getting married!</div>
 {% endblock %}

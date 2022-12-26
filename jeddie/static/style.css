@@ -103,11 +103,47 @@ nav a#show-menu {
 }
 
 main {
-    width: 50em;
+    height: calc(100vh - 120px);
     margin: 0 auto;
+    padding: 0 calc((100% - 50em) / 2);
+    font-size: 16pt;
+    line-height: 1.6;
+    background-size: cover;
+}
+
+main#landing {
+    background-image: url("images/home.jpg");
+    background-position: 75% 66%;
+}
+
+main#landing > #content-overlay {
+    background-color: transparent;
+    padding-top: 15em;
+}
+
+main#story {
+    background-image: url("images/story.jpg");
+    background-position: 50% 66%;
+    overflow: scroll;
+}
+
+main#wedding {
+    background-image: url("images/hob.jpg");
+    background-position: 75% 66%;
+}
+
+main#photos {
     padding: 0;
-    font-size: 14pt;
-    line-height: 1.4;
+}
+
+main#photos > #content-overlay {
+    background-color: transparent;
+    padding: 0;
+}
+
+#content-overlay {
+    padding: 2em;
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 a {
@@ -120,6 +156,7 @@ a:hover {
 }
 
 h2 {
+    margin-top: 0;
     margin-bottom: 0;
 }
 
@@ -129,24 +166,9 @@ p {
 
 /* Homepage */
 
-div#landing {
-    height: calc(100vh - 123px);
-    width: 100vw;
-}
-
-img#cover-image-home {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: 75% 66%;
-}
-
 div#announcement {
-    position: relative;
-    margin-top: -55vh;
-    width: 100%;
     animation: 1s anim-lineUp ease-out 1;
-    font-size: max(4vw, 20pt);
+    font-size: max(4vw, 24pt);
     font-family: "Tofino Pro Wide", Helvetica, Arial, sans-serif;
     font-weight: 600;
     text-align: center;
@@ -167,48 +189,28 @@ div#announcement {
     }
 }
 
-/* Our story page */
-
-div#story-flow {
-    position: relative;
-    margin: -75vh auto 0 auto;
-    padding: 30px;
-    width: min(50em, calc(100% - 60px));
-    background-color: rgba(0, 0, 0, 0.75);
-    font-size: 16pt;
-    line-height: 1.4;
-}
-
 /* Wedding page */
 
 div#event-flow {
-    position: relative;
-    margin-top: -60vh;
-    width: 100%;
-    font-size: 2vw;
+    font-size: max(2vw, 20pt);
     text-align: center;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.75);
+    justify-content: space-around;
 }
 
 div#event-flow div {
-    padding: 3vw;
+    padding: max(3vw, 30px);
 }
 
 div#event-flow svg {
     fill: var(--alt-background);
+    margin-left: 8px;
     height: 3vw;
 }
 
 /* Photos page */
-
-#gallery {
-    width: 100%;
-}
 
 .gallery-row {
     height: 40%;
@@ -278,23 +280,11 @@ div#event-flow svg {
     }
 
     main {
-        width: calc(100% - 4em);
-        padding: 0 2em;
-        font-size: 12pt;
-    }
-
-    /* Homepage */
-
-    div#landing {
         height: calc(100vh - 75px);
-        width: 100vw;
-        max-height: -webkit-fill-available;
-    }
-
-    /* Our story page */
-
-    div#story-flow {
-        top: inherit;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        font-size: 13pt;
         max-height: -webkit-fill-available;
     }
 
@@ -302,8 +292,6 @@ div#event-flow svg {
 
     div#event-flow {
         flex-direction: column;
-        font-size: 16pt;
-        margin-top: -75vh;
     }
 
     div#event-flow svg {
