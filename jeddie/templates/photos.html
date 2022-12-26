@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Photos{% endblock %}
+{% block title %}{{ lang_photos }}{% endblock %}
 {% block main_id %}photos{% endblock %}
 {% macro photo(name, ratio, alt="gallery image") %}
     <img src="{{ url_for("static", filename="images/" + name + "_small.jpg") }}"
