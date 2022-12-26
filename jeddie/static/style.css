@@ -170,13 +170,13 @@ div#announcement {
 /* Our story page */
 
 div#story-flow {
-    display: flex;
-    justify-content: space-between;
-    column-gap: 2em;
-}
-
-div#story-flow img {
-    width: 480px;
+    position: relative;
+    margin: -75vh auto 0 auto;
+    padding: 30px;
+    width: min(50em, calc(100% - 60px));
+    background-color: rgba(0, 0, 0, 0.75);
+    font-size: 16pt;
+    line-height: 1.4;
 }
 
 /* Wedding page */
@@ -192,7 +192,7 @@ div#event-flow {
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 div#event-flow div {
@@ -294,11 +294,8 @@ div#event-flow svg {
     /* Our story page */
 
     div#story-flow {
-        flex-direction: column;
-    }
-
-    div#story-flow img {
-        width: inherit;
+        top: inherit;
+        max-height: -webkit-fill-available;
     }
 
     /* Wedding page */
