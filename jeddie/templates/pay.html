@@ -2,13 +2,7 @@
 {% block title %}{{ lang_registry }}{% endblock %}
 {% block head %}
     <script src="https://js.stripe.com/v3/"></script>
-    <script type="text/javascript">
-        const stripe = Stripe('{{ public_key }}');
-        const options = {
-            clientSecret: '{{ client_secret }}',
-        };
-        const elements = stripe.elements(options);
-    </script>
+    <script src="{{ url_for("static", filename="stripe.js") }}"></script>
 {% endblock %}
 {% block main_id %}registry{% endblock %}
 {% block content %}
@@ -16,38 +10,16 @@
         <div id="payment-element">
             <!-- Elements will create form elements here -->
         </div>
+        <label>
+            Email
+            <input type="email">
+        </label>
         <button id="submit">Submit</button>
         <div id="error-message">
             <!-- Display error message to your customers here -->
         </div>
     </form>
     <script type="text/javascript">
-        const paymentElement = elements.create('payment');
-        paymentElement.mount('#payment-element');
-
-        const form = document.getElementById('payment-form');
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const {error} = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    return_url: '{{ url_for('jeddie.post_pay', _external=True) }}',
-                },
-            });
-
-            if (error) {
-                // This point will only be reached if there is an immediate error when
-                // confirming the payment. Show error to your customer (for example, payment
-                // details incomplete)
-                const messageContainer = document.querySelector('#error-message');
-                messageContainer.textContent = error.message;
-            } else {
-                // Your customer will be redirected to your `return_url`. For some payment
-                // methods like iDEAL, your customer will be redirected to an intermediate
-                // site first to authorize the payment, then redirected to the `return_url`.
-            }
-        });
+        prepare_transaction('{{ public_key }}', '{{ client_secret }}', '{{ url_for("jeddie.post_pay", _external=True) }}', '{{ lang__ }}')
     </script>
 {% endblock %}

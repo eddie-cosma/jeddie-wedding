@@ -85,7 +85,7 @@ def pay(item_id: int):
     if item := session.query(Item).where(Item.id == item_id).one_or_none():
         stripe_key = current_app.config.get('STRIPE_API_KEY')
         intent = create_intent(amount=item.price)
-        return render_template('pay.html', public_key=stripe_key, client_secret=intent.client_secret)
+        return render_template('pay.html', public_key=stripe_key, client_secret=intent.client_secret, **g.language)
     else:
         flash(g.language.get('lang_invalid_registry_item'))
         return redirect(url_for('jeddie.registry'), 302)
@@ -93,4 +93,4 @@ def pay(item_id: int):
 @bp.route('/post-pay', methods=['GET'])
 def post_pay():
     stripe_key = current_app.config.get('STRIPE_API_KEY')
-    return render_template('post-pay.html', public_key=stripe_key)
+    return render_template('post-pay.html', public_key=stripe_key, **g.language)
