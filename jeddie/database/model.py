@@ -45,3 +45,24 @@ class Meal(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     vegan = Column(Boolean, nullable=False, default=False)
+
+
+class Item(Base):
+    __tablename__ = 'item'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+    description = Column(String(280), nullable=True)
+    photo_filename = Column(String(100), nullable=False)
+    price = Column(Integer, nullable=False)
+
+
+class Gift(Base):
+    __tablename__ = 'gift'
+    id = Column(Integer, primary_key=True)
+    buyer_name = Column(String(100), nullable=False)
+    guest_id = Column(Integer, ForeignKey('guest.id'), nullable=True)
+    guest = relationship('Guest')
+    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
+    item = relationship("Item")
+    quantity = Column(Integer, nullable=False, default=1)
+

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ lang_registry }}{% endblock %}
+{% block head %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+        const stripe = Stripe('{{ public_key }}');
+        const clientSecret = new URLSearchParams(window.location.search).get(
+            'payment_intent_client_secret'
+        );
+    </script>
+{% endblock %}
+{% block main_id %}registry{% endblock %}
+{% block content %}
+    <div id="message">
+
+    </div>
+    <script type="text/javascript">
+        stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => {
+            const message = document.querySelector('#message')
+
+            // Inspect the PaymentIntent `status` to indicate the status of the payment
+            // to your customer.
+            //
+            // Some payment methods will [immediately succeed or fail][0] upon
+            // confirmation, while others will first enter a `processing` state.
+            //
+            // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
+            switch (paymentIntent.status) {
+                case 'succeeded':
+                    message.innerText = 'Success! Payment received.';
+                    break;
+
+                case 'processing':
+                    message.innerText = "Payment processing. We'll update you when payment is received.";
+                    break;
+
+                case 'requires_payment_method':
+                    message.innerText = 'Payment failed. Please try another payment method.';
+                    // Redirect your user back to your payment page to attempt collecting
+                    // payment again
+                    break;
+
+                default:
+                    message.innerText = 'Something went wrong.';
+                    break;
+            }
+        });
+    </script>
+{% endblock %}

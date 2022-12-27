@@ -3,8 +3,9 @@ import json
 from flask import g, current_app, render_template, Blueprint, abort, request, flash, redirect, url_for
 
 from database import get_db
-from database.model import Guest, Party, Meal
+from database.model import Guest, Party, Meal, Item
 from middleware.recaptcha import verify_recaptcha
+from middleware.stripe import create_intent
 
 bp = Blueprint('jeddie', __name__, url_prefix='/<language_code>')
 
@@ -78,9 +79,16 @@ def registry():
     return render_template("registry.html", **g.language)
 
 
-@bp.route('/test')
-def test():
+@bp.route('/pay/<int:item_id>', methods=['GET'])
+def pay(item_id: int):
     session = get_db()
-    values = session.query(Guest).all()
-    results = [{'guest': value.email, 'party': value.party.name} for value in values]
-    return json.dumps(results), 200, {'content_type': 'application/json'}
+    if item := session.query(Item).where(Item.id == item_id).one_or_none():
+        stripe_key = current_app.config.get('STRIPE_API_KEY')
+        intent = create_intent(amount=item.price)
+        return render_template('pay.html', public_key=stripe_key, client_secret=intent.client_secret)
+
+
+@bp.route('/post-pay', methods=['GET'])
+def post_pay():
+    stripe_key = current_app.config.get('STRIPE_API_KEY')
+    return render_template('post-pay.html', public_key=stripe_key)
