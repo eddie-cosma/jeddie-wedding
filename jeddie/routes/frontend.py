@@ -76,7 +76,9 @@ def hotel():
 
 @bp.route('/registry')
 def registry():
-    return render_template("registry.html", **g.language)
+    session = get_db()
+    items = session.query(Item).all()
+    return render_template("registry.html", items=items, **g.language)
 
 
 @bp.route('/pay/<int:item_id>', methods=['GET'])

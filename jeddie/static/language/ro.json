@@ -10,6 +10,7 @@
   "rsvp_code": "Cod RSVP",
   "submit": "Submit",
   "invalid_rsvp_code": "Codul RSVP pe care l-ai trimis este nevalid. Verifica ortografia și încearca din nou.",
+  "invalid_registry_item": "This registry item does not exist. Please select another item.",
   "landing_announcement": "Ne căsătorim!",
   "our_story_title": "Povestea noastră",
   "our_story_detail": "<p>Jen și Eddie și-au început curtarea în conformitate cu cele mai sacre tradiții milenare: glisând direct pe Bumble. După o scurtă conversație, și motivați de nevoia lor reciprocă de ștampilă Brewery Passport, au decis să iasă la o primă întâlnire la Bookhouse Brewery din Hingetown. Mulțumit de întâlnirea lor inițială, Jen a oferit două sugestii pentru oa doua întâlnire: Festivalul Greciei sau Festivalul Usturoiului. O alegere evidentă i-a determinat să împartă un coș delicios cu cartofi prăjiți cu usturoi și o ceașcă detestabilă de înghețată cu usturoi, solidificând începutul unei relații promițătoare și dovedind definitiv că Eddie nu este un vampir.</p><p>Timp de trei ani împreună, Jen și Eddie s-au susținut unul pe celălalt prin COVID, au învățat să trăiască împreună sub un singur acoperiș, au văzut multe muzicale împreună și au călătorit în locuri precum Spania, Miami și sud-vestul SUA Pe 27 mai 2022, sub un copac. în Central Park și în fața multor veverițe curioase, Eddie a cerut în căsătorie, iar Jen a spus da. Restul este istorie.</p>",
@@ -22,5 +23,7 @@
   "hotel_parking": "Parcare",
   "hotel_parking_detail": "Parcarea cu valet este disponibilă la Hyatt Regency pentru 42 USD/noapte, cu privilegii de intrare și ieșire. Există multe parcări la câțiva pași, cu tarife mai puțin costisitoare. Ca alternativă, parcarea pe stradă este gratuită toată noaptea în weekend.",
   "hotel_contact": "Informații de contact",
-  "hotel_contact_detail": "420 Superior Avenue East<br>Cleveland, OH 44114<br>Statele Unite<br><a href=\"tel:+12165751234\">+1&nbsp;216&nbsp;575&nbsp;1234</a><br><a href=\"mailto:salesclerc@hyatt.com\">salesclerc@hyatt.com</a>"
+  "hotel_contact_detail": "420 Superior Avenue East<br>Cleveland, OH 44114<br>Statele Unite<br><a href=\"tel:+12165751234\">+1&nbsp;216&nbsp;575&nbsp;1234</a><br><a href=\"mailto:salesclerc@hyatt.com\">salesclerc@hyatt.com</a>",
+  "registry_purchase": "Cumpără cadou",
+  "registry_price_format": "%.2f USD"
 }

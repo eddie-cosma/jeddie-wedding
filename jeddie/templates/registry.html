@@ -2,5 +2,22 @@
 {% block title %}{{ lang_registry }}{% endblock %}
 {% block main_id %}registry{% endblock %}
 {% block content %}
-
+    {% for item in items %}
+        <div>
+            {% if lang__ == 'ro' %}
+                <img src="{{ url_for("static", filename="images/" + item.photo_filename) }}" alt="{{ item.name_ro }}" class="registry_thumbnail">
+                <h2>{{ item.name_ro }}</h2>
+                {% if item.description_ro %}
+                    <p>{{ item.description_ro }}</p>
+                {% endif %}
+            {% else %}
+                <img src="{{ url_for("static", filename="images/" + item.photo_filename) }}" alt="{{ item.name }}" class="registry_thumbnail">
+                <h2>{{ item.name }}</h2>
+                {% if item.description %}
+                    <p>{{ item.description }}</p>
+                {% endif %}
+            {% endif %}
+            <p>{{ lang_registry_price_format|format(item.price / 100) }} : <a href="{{ url_for("jeddie.pay", item_id=item.id) }}">{{ lang_registry_purchase }}</a></p>
+        </div>
+    {% endfor %}
 {% endblock %}

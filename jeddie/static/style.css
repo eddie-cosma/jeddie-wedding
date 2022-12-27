@@ -256,6 +256,13 @@ div#event-flow svg {
     margin: 15px 0;
 }
 
+/* Registry page */
+.registry_thumbnail {
+    float: left;
+    height: 150px;
+    margin-right: 30px;
+}
+
 @media only screen and (max-width: 950px) {
     /* Base elements */
 

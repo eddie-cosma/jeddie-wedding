@@ -23,5 +23,7 @@
   "hotel_parking": "Parking",
   "hotel_parking_detail": "Valet parking is available at the Hyatt Regency for $42/night with in-and-out privileges. There are many parking garages within walking distance with less expensive rates. Alternatively, street parking is free all night on weekends.",
   "hotel_contact": "Contact information",
-  "hotel_contact_detail": "420 Superior Avenue East<br>Cleveland, OH 44114<br><a href=\"tel:+12165751234\">(216)&nbsp;575&nbsp;1234</a><br><a href=\"mailto:salesclerc@hyatt.com\">salesclerc@hyatt.com</a>"
+  "hotel_contact_detail": "420 Superior Avenue East<br>Cleveland, OH 44114<br><a href=\"tel:+12165751234\">(216)&nbsp;575&nbsp;1234</a><br><a href=\"mailto:salesclerc@hyatt.com\">salesclerc@hyatt.com</a>",
+  "registry_purchase": "Purchase gift",
+  "registry_price_format": "$%.2f"
 }
