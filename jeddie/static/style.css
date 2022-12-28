@@ -118,7 +118,7 @@ main#landing {
 
 main#landing > #content-overlay {
     background-color: transparent;
-    padding-top: 15em;
+    padding-top: 30vh;
 }
 
 main#story {
