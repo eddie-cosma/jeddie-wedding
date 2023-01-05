@@ -3,21 +3,32 @@
 {% block main_id %}registry{% endblock %}
 {% block content %}
     {% for item in items %}
-        <div>
-            {% if lang__ == 'ro' %}
-                <img src="{{ url_for("static", filename="images/" + item.photo_filename) }}" alt="{{ item.name_ro }}" class="registry_thumbnail">
-                <h2>{{ item.name_ro }}</h2>
-                {% if item.description_ro %}
-                    <p>{{ item.description_ro }}</p>
+        <div class="registry-item">
+            <img src="{{ url_for("static", filename="images/" + item.photo_filename) }}" alt="{{ item.name_ro }}" class="registry-thumbnail">
+            <div class="registry-item-detail">
+                {% if lang__ == 'ro' %}
+                    <h2>{{ item.name_ro }}</h2>
+                    {% if item.description_ro %}
+                        <p>{{ item.description_ro }}</p>
+                    {% endif %}
+                {% else %}
+                    <h2>{{ item.name }}</h2>
+                    {% if item.description %}
+                        <p>{{ item.description }}</p>
+                    {% endif %}
                 {% endif %}
-            {% else %}
-                <img src="{{ url_for("static", filename="images/" + item.photo_filename) }}" alt="{{ item.name }}" class="registry_thumbnail">
-                <h2>{{ item.name }}</h2>
-                {% if item.description %}
-                    <p>{{ item.description }}</p>
-                {% endif %}
-            {% endif %}
-            <p>{{ lang_registry_price_format|format(item.price / 100) }} : <a href="{{ url_for("jeddie.pay", item_id=item.id) }}">{{ lang_registry_purchase }}</a></p>
+            </div>
+            <div class="registry-item-cost">
+                <div>
+                    <h2>{{ lang_registry_price_format|format(item.price / 100) }}</h2>
+                    <p>555 remain</p>
+                </div>
+                <div>
+                    <form action="{{ url_for("jeddie.pay", item_id=item.id) }}">
+                        <input type="submit" value="{{ lang_registry_purchase }}">
+                    </form>
+                </div>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}
