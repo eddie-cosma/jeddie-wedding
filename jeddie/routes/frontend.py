@@ -92,6 +92,14 @@ def registry():
 def pay(item_id: int):
     session = get_db()
     if item := session.query(Item).where(Item.id == item_id).one_or_none():
+        # If gift is "sold out" do not allow it to be purchased
+        total_purchased = session.query(Gift.item_id,
+                                        func.coalesce(func.sum(Gift.quantity), 0).label('total'))\
+                                 .filter_by(item_id=item.id).one_or_none()
+        if item.max_quantity <= total_purchased.total:
+            return redirect(url_for('jeddie.registry'), 302)
+
+        # Initialize payment process
         stripe_key = current_app.config.get('STRIPE_API_KEY')
         intent = create_intent(amount=item.price)
         return render_template('pay.html', public_key=stripe_key, client_secret=intent.client_secret, **g.language)
