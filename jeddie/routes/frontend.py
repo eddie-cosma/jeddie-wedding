@@ -1,9 +1,11 @@
 import json
 
 from flask import g, current_app, render_template, Blueprint, abort, request, flash, redirect, url_for
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql import func
 
 from database import get_db
-from database.model import Guest, Party, Meal, Item
+from database.model import Guest, Party, Meal, Item, Gift
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent
 
@@ -77,7 +79,12 @@ def hotel():
 @bp.route('/registry')
 def registry():
     session = get_db()
-    items = session.query(Item).all()
+    sq = session.query(Gift.id, Gift.item_id, func.sum(Gift.quantity).label('total_purchased'))\
+                .group_by(Gift.item_id)\
+                .subquery()
+    counts = aliased(Gift, sq, 'purchases')
+    items = session.query(Item, (Item.max_quantity - func.coalesce(sq.c.total_purchased, 0)).label('remaining'))\
+                   .join(counts, counts.item_id == Item.id, isouter=True)
     return render_template("registry.html", items=items, **g.language)
 
 
@@ -91,6 +98,7 @@ def pay(item_id: int):
     else:
         flash(g.language.get('lang_invalid_registry_item'))
         return redirect(url_for('jeddie.registry'), 302)
+
 
 @bp.route('/post-pay', methods=['GET'])
 def post_pay():

@@ -261,9 +261,15 @@ div#event-flow svg {
 .registry-item {
     background-color: var(--alt-background-dark);
     padding: 20px;
+    margin: 20px 0 0 0;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
+}
+
+.registry-item-none-remaining {
+    background-color: #333333;
+    color: #000000;
 }
 
 .registry-item h2 {
@@ -287,6 +293,10 @@ div#event-flow svg {
     border-radius: 10px;
 }
 
+.registry-item-detail {
+    width: 100%;
+}
+
 .registry-item-cost {
     float: right;
     text-align: right;
@@ -296,7 +306,7 @@ div#event-flow svg {
     flex-direction: column;
 }
 
-.registry-item-cost input[type=submit] {
+.registry-item input[type=submit] {
     font-size: 16pt;
     background-color: var(--accent);
     background-image: url('images/button-bg.png');
@@ -306,11 +316,23 @@ div#event-flow svg {
     border-radius: 10px;
     padding: 0.2em;
     margin-top: 1em;
+    -webkit-appearance: none;
 }
 
-.registry-item-cost input[type=submit]:hover {
+.registry-item-none-remaining input[type=submit] {
+    background-color: #444444;
+    background-image: none;
+    color: #999999;
+}
+
+.registry-item input[type=submit]:hover {
     background-image: url('images/button-bg-hover.png');
     cursor: pointer;
+}
+
+.registry-item-none-remaining input[type=submit]:hover {
+    background-image: none;
+    cursor: not-allowed;
 }
 
 @media only screen and (max-width: 950px) {

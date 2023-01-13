@@ -1,31 +1,56 @@
 {% extends "base.html" %}
+
+{% macro label_remain(quantity_remaining) %}
+    {% if quantity_remaining == 0 %}
+        {{ lang_remain_zero }}
+    {% elif quantity_remaining == 1 %}
+        {{ lang_remain_one }}
+    {% else %}
+        {{ lang_remain_plural }}
+    {% endif %}
+{% endmacro %}
+
+{% macro div_class_remain(quantity_remaining) %}
+    {% if quantity_remaining != 0 %}
+        <div class="registry-item">
+    {% else %}
+        <div class="registry-item registry-item-none-remaining">
+    {% endif %}
+{% endmacro %}
+
+{% macro disable_button_if_none_remain(quantity_remaining) %}
+    {% if quantity_remaining == 0 %}
+        disabled
+    {% endif %}
+{% endmacro %}
+
 {% block title %}{{ lang_registry }}{% endblock %}
 {% block main_id %}registry{% endblock %}
 {% block content %}
     {% for item in items %}
-        <div class="registry-item">
-            <img src="{{ url_for("static", filename="images/" + item.photo_filename) }}" alt="{{ item.name_ro }}" class="registry-thumbnail">
+        {{ div_class_remain(item.remaining) }}
+            <img src="{{ url_for("static", filename="images/" + item.Item.photo_filename) }}" alt="{{ item.Item.name_ro }}" class="registry-thumbnail">
             <div class="registry-item-detail">
                 {% if lang__ == 'ro' %}
-                    <h2>{{ item.name_ro }}</h2>
-                    {% if item.description_ro %}
-                        <p>{{ item.description_ro }}</p>
+                    <h2>{{ item.Item.name_ro }}</h2>
+                    {% if item.Item.description_ro %}
+                        <p>{{ item.Item.description_ro }}</p>
                     {% endif %}
                 {% else %}
-                    <h2>{{ item.name }}</h2>
-                    {% if item.description %}
-                        <p>{{ item.description }}</p>
+                    <h2>{{ item.Item.name }}</h2>
+                    {% if item.Item.description %}
+                        <p>{{ item.Item.description }}</p>
                     {% endif %}
                 {% endif %}
             </div>
             <div class="registry-item-cost">
                 <div>
-                    <h2>{{ lang_registry_price_format|format(item.price / 100) }}</h2>
-                    <p>555 remain</p>
+                    <h2>{{ lang_registry_price_format|format(item.Item.price / 100) }}</h2>
+                    <p>{{ item.remaining }} {{ label_remain(item.remaining) }}</p>
                 </div>
                 <div>
-                    <form action="{{ url_for("jeddie.pay", item_id=item.id) }}">
-                        <input type="submit" value="{{ lang_registry_purchase }}">
+                    <form action="{{ url_for("jeddie.pay", item_id=item.Item.id) }}">
+                        <input type="submit" value="{{ lang_registry_purchase }}" {{ disable_button_if_none_remain(item.remaining) }}>
                     </form>
                 </div>
             </div>
