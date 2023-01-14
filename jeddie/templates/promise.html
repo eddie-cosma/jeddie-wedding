@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ lang_registry }}{% endblock %}
+{% block content %}
+    <h1>Instructions</h1>
+    <p>You may leave cash or a check in the card box at the wedding, or mail it to our address:</p>
+    {{ lang_home_address|safe }}
+    <h1>Confirm gift</h1>
+    <p>Who can we thank for this gift?</p>
+    <form method="post" action="">
+        <p>Gift<br>{% if lang__ == 'ro' %}{{ item.name_ro }}{% else %}{{ item.name }}{% endif %}</p>
+        <p>Price<br>{{ lang_registry_price_format|format(item.price / 100) }}</p>
+        <label for="buyer_name">Your name(s)</label><br><input type="text" id="buyer_name" name="buyer_name"><br>
+        <input type="submit" value="Confirm Gift">
+    </form>
+{% endblock %}

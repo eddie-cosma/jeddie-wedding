@@ -49,11 +49,23 @@
                     <p>{{ item.remaining }} {{ label_remain(item.remaining) }}</p>
                 </div>
                 <div>
-                    <form action="{{ url_for("jeddie.pay", item_id=item.Item.id) }}">
-                        <input type="submit" value="{{ lang_registry_purchase }}" {{ disable_button_if_none_remain(item.remaining) }}>
-                    </form>
+                    <input type="button" value="{{ lang_registry_purchase }}" {{ disable_button_if_none_remain(item.remaining) }} onClick="show_payment_modal({{ item.Item.id }});">
                 </div>
             </div>
         </div>
     {% endfor %}
+
+<div id="modal-overlay" onclick="hide_payment_modal();">
+    <div id="modal">
+        <h2>{{ lang_registry_payment_prompt }}</h2>
+        <div id="payment-buttons">
+        <form id="pay_by_cash_check" action="">
+            <input type="submit" value="{{ lang_registry_cash_check }}">
+        </form>
+        <form id="pay_by_credit_card" action="">
+            <input type="submit" value="{{ lang_registry_credit_card }}">
+        </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

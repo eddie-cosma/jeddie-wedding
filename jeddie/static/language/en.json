@@ -25,8 +25,12 @@
   "hotel_contact": "Contact information",
   "hotel_contact_detail": "420 Superior Avenue East<br>Cleveland, OH 44114<br><a href=\"tel:+12165751234\">(216)&nbsp;575&nbsp;1234</a><br><a href=\"mailto:salesclerc@hyatt.com\">salesclerc@hyatt.com</a>",
   "registry_purchase": "Purchase gift",
+  "registry_payment_prompt": "How would you like to pay?",
+  "registry_cash_check": "Cash/Check",
+  "registry_credit_card": "Credit Card",
   "registry_price_format": "$%.2f",
   "remain_zero": "remain",
   "remain_one": "remains",
-  "remain_plural": "remain"
+  "remain_plural": "remain",
+  "home_address": "1306 Belle Avenue Lower<br>Lakewood, OH 44107"
 }

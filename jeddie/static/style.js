@@ -55,3 +55,20 @@ function add_guests(new_guests) {
     document.getElementById('add_guests_button').remove();
     document.getElementById('add_guests_notice').remove();
 }
+
+function show_payment_modal(item_id) {
+    let cash_check_form = document.getElementById('pay_by_cash_check')
+    cash_check_form.action = 'promise/' + item_id
+    let credit_card_form = document.getElementById('pay_by_credit_card')
+    credit_card_form.action = 'pay/' + item_id
+
+    let modal = document.getElementById('modal-overlay');
+    modal.style.display = 'flex';
+}
+
+function hide_payment_modal() {
+    if (event.target === event.currentTarget) {
+        let modal = document.getElementById('modal-overlay');
+        modal.style.display = 'none';
+    }
+}

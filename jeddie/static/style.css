@@ -164,6 +164,24 @@ p {
     margin-top: 10px;
 }
 
+input[type=button], input[type=submit] {
+    font-size: 16pt;
+    background-color: var(--accent);
+    background-image: url('images/button-bg.png');
+    background-repeat: repeat-x;
+    color: var(--alt-background);
+    border: 0;
+    border-radius: 10px;
+    padding: 0.2em 0.3em;
+    margin-top: 1em;
+    -webkit-appearance: none;
+}
+
+input[type=button]:hover, input[type=submit]:hover {
+    background-image: url('images/button-bg-hover.png');
+    cursor: pointer;
+}
+
 /* Homepage */
 
 div#announcement {
@@ -256,8 +274,8 @@ div#event-flow svg {
     border: 0;
     margin: 15px 0;
 }
-
 /* Registry page */
+
 .registry-item {
     background-color: var(--alt-background-dark);
     padding: 20px;
@@ -306,33 +324,46 @@ div#event-flow svg {
     flex-direction: column;
 }
 
-.registry-item input[type=submit] {
-    font-size: 16pt;
-    background-color: var(--accent);
-    background-image: url('images/button-bg.png');
-    background-repeat: repeat-x;
-    color: var(--alt-background);
-    border: 0;
-    border-radius: 10px;
-    padding: 0.2em;
-    margin-top: 1em;
-    -webkit-appearance: none;
-}
-
-.registry-item-none-remaining input[type=submit] {
+.registry-item-none-remaining input[type=button] {
     background-color: #444444;
     background-image: none;
     color: #999999;
 }
 
-.registry-item input[type=submit]:hover {
-    background-image: url('images/button-bg-hover.png');
-    cursor: pointer;
-}
-
-.registry-item-none-remaining input[type=submit]:hover {
+.registry-item-none-remaining input[type=button]:hover {
     background-image: none;
     cursor: not-allowed;
+}
+
+#modal-overlay {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+}
+
+#modal-overlay #modal {
+    max-width: 500px;
+    width: 80%;
+    padding: 10px 30px;
+    background: var(--alt-background-dark);
+    border-radius: 10px;
+    align-self: center;
+}
+
+#modal h2 {
+    padding: 0;
+    margin: 0;
+    font-size: 20pt;
+}
+
+#payment-buttons {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 @media only screen and (max-width: 950px) {
@@ -418,5 +449,10 @@ div#event-flow svg {
         margin: 20px 0 0 0;
         text-align: right;
         flex-direction: column;
+    }
+
+    /* Registry page */
+    #modal h2 {
+        font-size: 16pt;
     }
 }

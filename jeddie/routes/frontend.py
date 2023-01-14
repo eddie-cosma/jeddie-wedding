@@ -6,6 +6,7 @@ from sqlalchemy.sql import func
 
 from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
+from logic.frontend import is_item_available, record_gift
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent
 
@@ -88,24 +89,38 @@ def registry():
     return render_template("registry.html", items=items, **g.language)
 
 
+@bp.route('/promise/<int:item_id>', methods=['GET', 'POST'])
+def promise(item_id: int):
+    session = get_db()
+    if item := session.query(Item).where(Item.id == item_id).one_or_none():
+        if not is_item_available(session, item):
+            return redirect(url_for('jeddie.registry'), 302)
+
+        if request.method == 'GET':
+            return render_template('promise.html', item=item, **g.language)
+        else:
+            buyer = request.form.get('buyer_name', 'Anonymous')
+            record_gift(session, item, buyer)
+            return redirect(url_for('jeddie.registry'), 302)
+
+    flash(g.language.get('lang_invalid_registry_item'))
+    return redirect(url_for('jeddie.registry'), 302)
+
+
 @bp.route('/pay/<int:item_id>', methods=['GET'])
 def pay(item_id: int):
     session = get_db()
     if item := session.query(Item).where(Item.id == item_id).one_or_none():
-        # If gift is "sold out" do not allow it to be purchased
-        total_purchased = session.query(Gift.item_id,
-                                        func.coalesce(func.sum(Gift.quantity), 0).label('total'))\
-                                 .filter_by(item_id=item.id).one_or_none()
-        if item.max_quantity <= total_purchased.total:
+        if not is_item_available(session, item):
             return redirect(url_for('jeddie.registry'), 302)
 
         # Initialize payment process
         stripe_key = current_app.config.get('STRIPE_API_KEY')
         intent = create_intent(amount=item.price)
         return render_template('pay.html', public_key=stripe_key, client_secret=intent.client_secret, **g.language)
-    else:
-        flash(g.language.get('lang_invalid_registry_item'))
-        return redirect(url_for('jeddie.registry'), 302)
+
+    flash(g.language.get('lang_invalid_registry_item'))
+    return redirect(url_for('jeddie.registry'), 302)
 
 
 @bp.route('/post-pay', methods=['GET'])
