@@ -54,9 +54,10 @@ class Item(Base):
     name_ro = Column(String(100), nullable=False)
     description = Column(String(280), nullable=True)
     description_ro = Column(String(280), nullable=True)
-    photo_filename = Column(String(100), nullable=False)
+    photo_filename = Column(String(100), nullable=True)
     price = Column(Integer, nullable=False)
-    max_quantity = Column(Integer, nullable=False)
+    max_quantity = Column(Integer, nullable=False, default=1)
+    public = Column(Boolean, nullable=False, default=False)
 
 
 class Gift(Base):

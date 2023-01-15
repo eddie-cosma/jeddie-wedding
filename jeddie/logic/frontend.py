@@ -30,3 +30,19 @@ def record_gift(session: scoped_session, item: Item, buyer: str):
 
     # Thank the buyer
     flash(f'Your cash/check gift of {price_format % (item.price / 100)} has been recorded. Thank you, {buyer}.')
+
+
+def create_custom_gift(session: scoped_session, price: float):
+    name = 'Custom gift'
+    price = int(round(price, 2))
+    custom_item = Item(
+        name=name,
+        name_ro=name,
+        price=price * 100,
+        max_quantity=1,
+        public=False,
+    )
+    session.add(custom_item)
+    session.commit()
+
+    return custom_item

@@ -30,7 +30,10 @@
     <h1>Gift registry</h1>
     <p>Travel is the greatest gift that you can give us. It's something over which we bonded early in our relationship. We have already lived together for over two years and have most of the things we need. Instead of buying a traditional gift off a registry, please consider contributing to our dream honeymoon in LOCATION by buying us an experience below.</p>
     <p>For those who would still like to purchase us a traditional gift, we are registered on <a href="https://www.amazon.com/wedding/share/jeddie">Amazon</a>.</p>
-    {% for item in items %}
+
+    {# List regular items #}
+
+    {% for item in items if item.Item.public %}
         {{ div_class_remain(item.remaining) }}
             <img src="{{ url_for("static", filename="images/" + item.Item.photo_filename) }}" alt="{{ item.Item.name_ro }}" class="registry-thumbnail">
             <div class="registry-item-detail">
@@ -57,6 +60,25 @@
             </div>
         </div>
     {% endfor %}
+
+    {# List custom-price item #}
+
+    <div class="registry-item">
+        <div class="registry-item-detail">
+            <h2>{{ lang_registry_custom_name }}</h2>
+            <p>{{ lang_registry_custom_description }}</p>
+        </div>
+        <div class="registry-item-cost">
+            <div><h2>$ ___._</h2></div>
+            <div>
+                <form method='get' action="{{ url_for('jeddie.registry_custom') }}">
+                    <input type="submit" value="{{ lang_registry_purchase }}">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{# Payment method selector modal #}
 
 <div id="modal-overlay" onclick="hide_payment_modal();">
     <div id="modal">

@@ -25,6 +25,8 @@
   "hotel_contact": "Informații de contact",
   "hotel_contact_detail": "420 Superior Avenue East<br>Cleveland, OH 44114<br>Statele Unite<br><a href=\"tel:+12165751234\">+1&nbsp;216&nbsp;575&nbsp;1234</a><br><a href=\"mailto:salesclerc@hyatt.com\">salesclerc@hyatt.com</a>",
   "registry_purchase": "Cumpără cadou",
+  "registry_custom_name": "Custom gift",
+  "registry_custom_description": "Custom gift description",
   "registry_payment_prompt": "Cum vrei să plătești?",
   "registry_cash_check": "Cash/Cec",
   "registry_credit_card": "Card de credit",

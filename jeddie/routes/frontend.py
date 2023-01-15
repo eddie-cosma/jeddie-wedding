@@ -6,7 +6,7 @@ from sqlalchemy.sql import func
 
 from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
-from logic.frontend import is_item_available, record_gift
+from logic.frontend import is_item_available, record_gift, create_custom_gift
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent
 
@@ -87,6 +87,21 @@ def registry():
     items = session.query(Item, (Item.max_quantity - func.coalesce(sq.c.total_purchased, 0)).label('remaining'))\
                    .join(counts, counts.item_id == Item.id, isouter=True)
     return render_template("registry.html", items=items, **g.language)
+
+
+@bp.route('/registry/custom', methods=['GET', 'POST'])
+def registry_custom():
+    if request.method == 'POST':
+        session = get_db()
+        price = request.form.get('price', 0)
+        if price.isnumeric() and float(price) > 0:
+            item = create_custom_gift(session, float(price))
+            return redirect(url_for('jeddie.pay', item_id=item.id), 302)
+        else:
+            flash('You must enter a dollar amount greater than zero for custom gifts.')
+            return redirect(url_for('jeddie.registry_custom'), 302)
+
+    return render_template("registry-custom.html", **g.language)
 
 
 @bp.route('/promise/<int:item_id>', methods=['GET', 'POST'])
