@@ -1,3 +1,4 @@
+import stripe
 from flask import redirect, url_for, g, flash
 from sqlalchemy.sql import func
 from sqlalchemy.orm.scoping import scoped_session
@@ -15,21 +16,22 @@ def is_item_available(session: scoped_session, item: Item) -> bool:
         return True
 
 
-def record_gift(session: scoped_session, item: Item, buyer: str):
-    price_format = g.language.get('lang_registry_price_format', '$%.2f')
-
+def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str | None = None):
     # Record the gift to log and email
-    print(f'Gift of {price_format % (item.price / 100)} received from {buyer}')
+    print(f'Gift of {"$%.2f" % (item.price / 100)} received from {buyer}')
     # TODO : Record email
 
+    # Set quantity = 0 if it's a Stripe transaction until we can confirm payment with async process
+    if stripe_id:
+        quantity = 0
+    else:
+        quantity = 1
+
     # Record the gift to database
-    gift = Gift(buyer_name=buyer, item_id=item.id, quantity=1)
+    gift = Gift(buyer_name=buyer, item_id=item.id, quantity=quantity, stripe_id=stripe_id)
     session.add(gift)
     session.commit()
     print(f'\tGift id: {gift.id}')
-
-    # Thank the buyer
-    flash(f'Your cash/check gift of {price_format % (item.price / 100)} has been recorded. Thank you, {buyer}.')
 
 
 def create_custom_gift(session: scoped_session, price: float):

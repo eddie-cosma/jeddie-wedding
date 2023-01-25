@@ -8,7 +8,7 @@ from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
 from logic.frontend import is_item_available, record_gift, create_custom_gift
 from middleware.recaptcha import verify_recaptcha
-from middleware.stripe import create_intent
+from middleware.stripe import create_intent, get_intent_metadata
 
 bp = Blueprint('jeddie', __name__, url_prefix='/<language_code>')
 
@@ -116,6 +116,8 @@ def promise(item_id: int):
         else:
             buyer = request.form.get('buyer_name', 'Anonymous')
             record_gift(session, item, buyer)
+            price_format = g.language.get('lang_registry_price_format', '$%.2f')
+            flash(f'Your cash/check gift of {price_format % (item.price / 100)} has been recorded. Thank you, {buyer}.')
             return redirect(url_for('jeddie.registry'), 302)
 
     flash(g.language.get('lang_invalid_registry_item'))
@@ -132,8 +134,13 @@ def pay(item_id: int):
         if request.method == 'POST':
             # Initialize payment process
             email = request.form.get('email', None)
+            buyer_name = request.form.get('name', None)
+            if not email or not buyer_name:
+                flash('Please enter a valid name and email address.')
+                return render_template('pre-pay.html', item=item, **g.language)
+
             stripe_key = current_app.config.get('STRIPE_API_KEY')
-            intent = create_intent(item=item, email=email)
+            intent = create_intent(item=item, email=email, buyer_name=buyer_name)
             return render_template('pay.html', item=item, public_key=stripe_key, intent=intent, **g.language)
         else:
             return render_template('pre-pay.html', item=item, **g.language)
@@ -148,6 +155,17 @@ def post_pay():
     intent = request.args.get('payment_intent', None)
     client_secret = request.args.get('payment_intent', None)
     if not intent or not client_secret:
-        flash('Something went wrong. ')
-        return redirect()
+        flash('Something went wrong.')
+        return redirect(url_for('jeddie.registry'), 302)
+
+    metadata = get_intent_metadata(intent)
+    if 'item_id' not in metadata.keys() or 'buyer_name' not in metadata.keys():
+        flash('Something went wrong.')
+        return redirect(url_for('jeddie.registry'), 302)
+
+    session = get_db()
+    if session.query(Gift).where(Gift.stripe_id == intent).count() == 0:
+        item = session.query(Item).where(Item.id == metadata['item_id']).one_or_none()
+        record_gift(session, item, metadata['buyer_name'], intent)
+
     return render_template('post-pay.html', public_key=stripe_key, **g.language)

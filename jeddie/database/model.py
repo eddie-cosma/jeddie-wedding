@@ -63,6 +63,7 @@ class Item(Base):
 class Gift(Base):
     __tablename__ = 'gift'
     id = Column(Integer, primary_key=True)
+    stripe_id = Column(String(100), nullable=True, index=True, unique=True)
     buyer_name = Column(String(100), nullable=False)
     item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
     item = relationship("Item")
