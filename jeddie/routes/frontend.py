@@ -122,17 +122,21 @@ def promise(item_id: int):
     return redirect(url_for('jeddie.registry'), 302)
 
 
-@bp.route('/pay/<int:item_id>', methods=['GET'])
+@bp.route('/pay/<int:item_id>', methods=['GET', 'POST'])
 def pay(item_id: int):
     session = get_db()
     if item := session.query(Item).where(Item.id == item_id).one_or_none():
         if not is_item_available(session, item):
             return redirect(url_for('jeddie.registry'), 302)
 
-        # Initialize payment process
-        stripe_key = current_app.config.get('STRIPE_API_KEY')
-        intent = create_intent(amount=item.price)
-        return render_template('pay.html', public_key=stripe_key, client_secret=intent.client_secret, **g.language)
+        if request.method == 'POST':
+            # Initialize payment process
+            email = request.form.get('email', None)
+            stripe_key = current_app.config.get('STRIPE_API_KEY')
+            intent = create_intent(item=item, email=email)
+            return render_template('pay.html', item=item, public_key=stripe_key, intent=intent, **g.language)
+        else:
+            return render_template('pre-pay.html', item=item, **g.language)
 
     flash(g.language.get('lang_invalid_registry_item'))
     return redirect(url_for('jeddie.registry'), 302)
@@ -141,4 +145,9 @@ def pay(item_id: int):
 @bp.route('/post-pay', methods=['GET'])
 def post_pay():
     stripe_key = current_app.config.get('STRIPE_API_KEY')
+    intent = request.args.get('payment_intent', None)
+    client_secret = request.args.get('payment_intent', None)
+    if not intent or not client_secret:
+        flash('Something went wrong. ')
+        return redirect()
     return render_template('post-pay.html', public_key=stripe_key, **g.language)

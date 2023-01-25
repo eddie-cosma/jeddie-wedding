@@ -5,20 +5,16 @@
     <script src="{{ url_for("static", filename="stripe.js") }}"></script>
 {% endblock %}
 {% block content %}
-    <form id="payment-form">
+    <form id="payment-form" data-secret="{{ intent.client_secret }}">
         <div id="payment-element">
             <!-- Elements will create form elements here -->
         </div>
-        <label>
-            Email
-            <input type="email">
-        </label>
         <button id="submit">Submit</button>
         <div id="error-message">
             <!-- Display error message to your customers here -->
         </div>
     </form>
     <script type="text/javascript">
-        prepare_transaction('{{ public_key }}', '{{ client_secret }}', '{{ url_for("jeddie.post_pay", _external=True) }}', '{{ lang__ }}')
+        prepare_transaction('{{ public_key }}', '{{ intent.client_secret }}', '{{ url_for("jeddie.post_pay", _external=True) }}', '{{ lang__ }}')
     </script>
 {% endblock %}

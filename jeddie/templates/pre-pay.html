@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ lang_registry }}{% endblock %}
+{% block content %}
+    <h1>Confirm email</h1>
+    <p>Where would you like an email receipt?</p>
+    <form method="post" action="">
+        <label for="email">Email</label><br><input type="text" id="email" name="email"><br>
+        <input type="submit" value="Continue">
+    </form>
+{% endblock %}
