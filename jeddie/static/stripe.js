@@ -3,12 +3,33 @@ function prepare_transaction(public_key, client_secret, return_url, language_cod
     const options = {
         clientSecret: client_secret,
         appearance: {
-            theme: 'night'
-        }
+            theme: 'night',
+            variables: {
+                colorPrimary: '#C0ABA7',
+                colorBackground: '#342F42',
+                colorText: '#E8E2DF',
+                colorDanger: '#720B0A',
+                fontFamily: 'Tofino Pro, Helvetica, Arial, sans-serif',
+                fontSizeBase: '16pt',
+                spacingUnit: '2px',
+                borderRadius: '10px',
+            }
+        },
+        fonts: [{
+            family: 'Tofino Pro',
+            src: 'url(fonts/TofinoProPersonal-Regular.otf)',
+            weight: '400',
+        }]
     };
     const elements = stripe.elements(options);
 
-    const paymentElement = elements.create('payment');
+    const paymentElementOptions = {
+        layout: {
+            type: 'tabs',
+            defaultCollapsed: false,
+        }
+    }
+    const paymentElement = elements.create('payment', paymentElementOptions);
     paymentElement.mount('#payment-element');
 
     const form = document.getElementById('payment-form');
