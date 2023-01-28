@@ -232,16 +232,10 @@ div#event-flow svg {
 /* Photos page */
 
 .gallery-row {
-    height: 40%;
     display: flex;
     flex-direction: row;
     gap: 10px;
     padding-bottom: 10px;
-}
-
-.gallery-image {
-    width: calc(100% * var(--ratio));
-    aspect-ratio: var(--ratio);
 }
 
 /* Hotel page */
@@ -415,9 +409,6 @@ div#event-flow svg {
         flex-direction: column;
     }
 
-    .gallery-image {
-        width: 100%;
-    }
 }
 
 @media only screen and (max-width: 700px) {
