@@ -182,6 +182,23 @@ input[type=button]:hover, input[type=submit]:hover, button:hover {
     cursor: pointer;
 }
 
+input[type=number], input[type=text] {
+    font-size: 16pt;
+    background-color: var(--alt-background-dark);
+    color: var(--primary-foreground);
+    border: 1px solid var(--primary-background);
+    border-radius: 10px;
+    -moz-appearance: textfield;
+    padding: 0.2em 0.3em;
+}
+
+/* Remove arrows from number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* Homepage */
 
 div#announcement {
