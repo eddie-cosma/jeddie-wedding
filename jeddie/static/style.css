@@ -199,6 +199,21 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+table {
+    border-collapse: collapse;
+    width: 20vw;
+}
+
+th {
+    background-color: var(--alt-background-dark);
+}
+
+td, th {
+    padding: 0 10px;
+    text-align: left;
+    border: 1px solid var(--primary-foreground);
+}
+
 /* Homepage */
 
 div#announcement {
