@@ -19,7 +19,6 @@ def is_item_available(session: scoped_session, item: Item) -> bool:
 def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str | None = None):
     # Record the gift to log and email
     print(f'Gift of {"$%.2f" % (item.price / 100)} received from {buyer}')
-    log_to_email(item, buyer, stripe_id)
 
     # Set quantity = 0 if it's a Stripe transaction until we can confirm payment with async process
     if stripe_id:
