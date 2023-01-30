@@ -1,5 +1,5 @@
-flask
-sqlalchemy
+flask~=2.2
+sqlalchemy~=1.4
 pytest
 psycopg2
-stripe
+stripe~=5
