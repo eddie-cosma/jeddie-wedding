@@ -115,7 +115,7 @@ def promise(item_id: int):
         if request.method == 'GET':
             return render_template('promise.html', item=item, **g.language)
         else:
-            buyer = request.form.get('buyer_name', '')
+            buyer = request.form.get('buyer_name', None)
             if not buyer:
                 flash('Please enter a valid name.')
                 return render_template('promise.html', item=item, **g.language)

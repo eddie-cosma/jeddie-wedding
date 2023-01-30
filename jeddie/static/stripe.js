@@ -8,7 +8,7 @@ function prepare_transaction(public_key, client_secret, return_url, language_cod
                 colorPrimary: '#C0ABA7',
                 colorBackground: '#342F42',
                 colorText: '#E8E2DF',
-                colorDanger: '#720B0A',
+                colorDanger: '#C2917A',
                 fontFamily: 'Tofino Pro, Helvetica, Arial, sans-serif',
                 fontSizeBase: '16pt',
                 spacingUnit: '2px',
