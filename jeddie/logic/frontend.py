@@ -16,7 +16,7 @@ def is_item_available(session: scoped_session, item: Item) -> bool:
         return True
 
 
-def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str | None = None):
+def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str = None):
     # Record the gift to log and email
     print(f'Gift of {"$%.2f" % (item.price / 100)} received from {buyer}')
 
