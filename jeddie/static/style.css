@@ -142,6 +142,13 @@ main#photos > #content-overlay {
     padding: 0;
 }
 
+div#flash-text {
+    width: calc(100% - 4em);
+    background-color: var(--accent);
+    color: var(--alt-background);
+    padding: 1em 2em 0.75em 2em;
+}
+
 #content-overlay {
     padding: 2em;
     background-color: rgba(0, 0, 0, 0.75);
@@ -185,7 +192,7 @@ input[type=button]:hover, input[type=submit]:hover, button:hover {
 input[type=number], input[type=text] {
     font-size: 16pt;
     background-color: var(--alt-background-dark);
-    color: var(--primary-foreground);
+    color: var(--alt-background);
     border: 1px solid var(--primary-background);
     border-radius: 10px;
     -moz-appearance: textfield;
@@ -201,7 +208,7 @@ input::-webkit-inner-spin-button {
 
 table {
     border-collapse: collapse;
-    width: 20vw;
+    width: 30em;
 }
 
 th {
@@ -421,6 +428,10 @@ div#event-flow svg {
         margin: 0;
         font-size: 13pt;
         max-height: -webkit-fill-available;
+    }
+
+    table {
+        width: 100%;
     }
 
     /* Wedding page */
