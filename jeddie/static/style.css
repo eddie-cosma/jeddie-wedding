@@ -142,7 +142,7 @@ main#photos > #content-overlay {
     padding: 0;
 }
 
-div#flash-text {
+div.flash {
     width: calc(100% - 4em);
     background-color: var(--accent);
     color: var(--alt-background);

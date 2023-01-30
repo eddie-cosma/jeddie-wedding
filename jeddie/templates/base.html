@@ -27,14 +27,12 @@
         <a href="{{ url_for('jeddie.registry') }}">{{ lang_registry }}</a>
     </nav>
     <main id="{% block main_id %}{% endblock %}">
-        <div id="flash-text">
-            {% with messages = get_flashed_messages() %}
-                {% for message in messages %}
-                <div class="flash">{{ message }}</div>
-                {% endfor %}
-            {% endwith %}
-        </div>
-    
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+            <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
         <div id="content-overlay">
             {% block content %}
             {% endblock %}
