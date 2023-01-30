@@ -115,7 +115,11 @@ def promise(item_id: int):
         if request.method == 'GET':
             return render_template('promise.html', item=item, **g.language)
         else:
-            buyer = request.form.get('buyer_name', 'Anonymous')
+            buyer = request.form.get('buyer_name', '')
+            if not buyer:
+                flash('Please enter a valid name.')
+                return render_template('promise.html', item=item, **g.language)
+
             record_gift(session, item, buyer)
             price_format = g.language.get('lang_registry_price_format', '$%.2f')
             flash(f'Your cash/check gift of {price_format % (item.price / 100)} has been recorded. Thank you, {buyer}.')
