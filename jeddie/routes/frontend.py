@@ -80,7 +80,7 @@ def hotel():
 @bp.route('/registry')
 def registry():
     session = get_db()
-    sq = session.query(Gift.id, Gift.item_id, func.sum(Gift.quantity).label('total_purchased'))\
+    sq = session.query(Gift.item_id, func.sum(Gift.quantity).label('total_purchased'))\
                 .group_by(Gift.item_id)\
                 .subquery()
     counts = aliased(Gift, sq, 'purchases')
