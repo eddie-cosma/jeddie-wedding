@@ -142,6 +142,13 @@ main#photos > #content-overlay {
     padding: 0;
 }
 
+div.flash {
+    width: calc(100% - 4em);
+    background-color: var(--accent);
+    color: var(--alt-background);
+    padding: 1em 2em 0.75em 2em;
+}
+
 #content-overlay {
     padding: 2em;
     background-color: rgba(0, 0, 0, 0.75);
@@ -182,6 +189,38 @@ input[type=button]:hover, input[type=submit]:hover, button:hover {
     cursor: pointer;
 }
 
+input[type=number], input[type=text] {
+    font-size: 16pt;
+    background-color: var(--alt-background-dark);
+    color: var(--alt-background);
+    border: 1px solid var(--primary-background);
+    border-radius: 10px;
+    -moz-appearance: textfield;
+    padding: 0.2em 0.3em;
+}
+
+/* Remove arrows from number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 30em;
+}
+
+th {
+    background-color: var(--alt-background-dark);
+}
+
+td, th {
+    padding: 0 10px;
+    text-align: left;
+    border: 1px solid var(--primary-foreground);
+}
+
 /* Homepage */
 
 div#announcement {
@@ -210,7 +249,7 @@ div#announcement {
 /* Wedding page */
 
 div#event-flow {
-    font-size: max(2vw, 20pt);
+    font-size: clamp(20pt, 2vw, 24pt);
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -220,7 +259,7 @@ div#event-flow {
 
 div#event-flow div {
     padding: max(3vw, 30px) 0;
-    width: 25vw;
+    width: clamp(350px, 25vw, 400px);
 }
 
 div#event-flow svg {
@@ -232,16 +271,10 @@ div#event-flow svg {
 /* Photos page */
 
 .gallery-row {
-    height: 40%;
     display: flex;
     flex-direction: row;
     gap: 10px;
     padding-bottom: 10px;
-}
-
-.gallery-image {
-    width: calc(100% * var(--ratio));
-    aspect-ratio: var(--ratio);
 }
 
 /* Hotel page */
@@ -397,6 +430,10 @@ div#event-flow svg {
         max-height: -webkit-fill-available;
     }
 
+    table {
+        width: 100%;
+    }
+
     /* Wedding page */
     div#event-flow {
         flex-direction: column;
@@ -415,9 +452,6 @@ div#event-flow svg {
         flex-direction: column;
     }
 
-    .gallery-image {
-        width: 100%;
-    }
 }
 
 @media only screen and (max-width: 700px) {

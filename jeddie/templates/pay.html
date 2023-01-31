@@ -6,6 +6,25 @@
 {% endblock %}
 {% block content %}
     <form id="payment-form" data-secret="{{ intent.client_secret }}">
+        <h1>Confirm gift</h1>
+        <p><table>
+            <tr>
+                <th>Gift</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>{% if lang__ == 'ro' %}{{ item.name_ro }}{% else %}{{ item.name }}{% endif %}</td>
+                <td>{{ lang_registry_price_format|format(item.price / 100) }}</td>
+            </tr>
+        </table></p>
+
+        <h1>Your details</h1>
+        <p>
+            Name: {{ intent.metadata.get('buyer_name', 'Anonymous') }}<br>
+            Email: {{ intent.receipt_email }}
+        </p>
+
+        <h1>Payment information</h1>
         <div id="payment-element">
             <!-- Elements will create form elements here -->
         </div>

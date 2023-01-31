@@ -11,37 +11,28 @@
 {% endblock %}
 {% block main_id %}registry{% endblock %}
 {% block content %}
-    <div id="message">
-
-    </div>
+    <h1>Payment status</h1>
+    <p><div id="message"></div></p>
+    <p><a href="{{ url_for('jeddie.registry') }}">Click here</a> to return to the gift registry.</p>
     <script type="text/javascript">
         stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => {
             const message = document.querySelector('#message')
-
-            // Inspect the PaymentIntent `status` to indicate the status of the payment
-            // to your customer.
-            //
-            // Some payment methods will [immediately succeed or fail][0] upon
-            // confirmation, while others will first enter a `processing` state.
-            //
-            // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
             switch (paymentIntent.status) {
                 case 'succeeded':
-                    message.innerText = 'Success! Payment received.';
+                    message.innerText = 'Thank you! We received your gift of $' + (paymentIntent.amount / 100).toFixed(2) + '. An email confirmation will be sent to ' + paymentIntent.receipt_email + '.';
+                    fetch('../refresh_stripe_qty/' + paymentIntent.id).then();
                     break;
 
                 case 'processing':
-                    message.innerText = "Payment processing. We'll update you when payment is received. It is safe to refresh this page.";
+                    message.innerText = "Your gift is still processing. You may refresh this page to check the status. You will receive an email confirmation when we receive your gift.";
                     break;
 
                 case 'requires_payment_method':
-                    message.innerText = 'Payment failed. Please try another payment method.';
-                    // Redirect your user back to your payment page to attempt collecting
-                    // payment again
+                    message.innerText = 'Your gift failed to send. Please try again using another payment method.';
                     break;
 
                 default:
-                    message.innerText = 'Something went wrong.';
+                    message.innerText = 'Something went wrong and your gift was not processed. Please contact Jen and Eddie to alert them of this error.';
                     break;
             }
         });

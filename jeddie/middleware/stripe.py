@@ -24,3 +24,10 @@ def get_intent_metadata(intent_id: str) -> dict:
     stripe.api_key = config.STRIPE_SECRET
     intent = stripe.PaymentIntent.retrieve(intent_id)
     return intent.metadata
+
+
+def get_status(intent_id: str) -> str:
+    import stripe
+    stripe.api_key = config.STRIPE_SECRET
+    intent = stripe.PaymentIntent.retrieve(intent_id)
+    return intent.status

@@ -94,11 +94,12 @@ def registry_custom():
     if request.method == 'POST':
         session = get_db()
         price = request.form.get('price', 0)
-        if price.isnumeric() and float(price) > 0:
+        if price.isnumeric() and 5000 > float(price) > 1:
             item = create_custom_gift(session, float(price))
             return redirect(url_for('jeddie.pay', item_id=item.id), 302)
         else:
-            flash('You must enter a dollar amount greater than zero for custom gifts.')
+            flash('You must enter a dollar amount between $1 and $5000 for custom gifts. For gifts exceeding this'
+                  ' amount, please consider leaving a check at the card box.')
             return redirect(url_for('jeddie.registry_custom'), 302)
 
     return render_template("registry-custom.html", **g.language)
@@ -114,7 +115,11 @@ def promise(item_id: int):
         if request.method == 'GET':
             return render_template('promise.html', item=item, **g.language)
         else:
-            buyer = request.form.get('buyer_name', 'Anonymous')
+            buyer = request.form.get('buyer_name', None)
+            if not buyer:
+                flash('Please enter a valid name.')
+                return render_template('promise.html', item=item, **g.language)
+
             record_gift(session, item, buyer)
             price_format = g.language.get('lang_registry_price_format', '$%.2f')
             flash(f'Your cash/check gift of {price_format % (item.price / 100)} has been recorded. Thank you, {buyer}.')

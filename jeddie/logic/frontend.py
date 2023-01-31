@@ -4,7 +4,7 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm.scoping import scoped_session
 
 from database.model import Item, Gift
-
+from middleware.email import log_to_email
 
 def is_item_available(session: scoped_session, item: Item) -> bool:
     total_purchased = session.query(Gift.item_id,
@@ -16,10 +16,9 @@ def is_item_available(session: scoped_session, item: Item) -> bool:
         return True
 
 
-def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str | None = None):
+def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str = None):
     # Record the gift to log and email
     print(f'Gift of {"$%.2f" % (item.price / 100)} received from {buyer}')
-    # TODO : Record email
 
     # Set quantity = 0 if it's a Stripe transaction until we can confirm payment with async process
     if stripe_id:
@@ -36,11 +35,11 @@ def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str 
 
 def create_custom_gift(session: scoped_session, price: float):
     name = 'Custom gift'
-    price = int(round(price, 2))
+    price = int(round(price, 2)) * 100
     custom_item = Item(
         name=name,
         name_ro=name,
-        price=price * 100,
+        price=price,
         max_quantity=1,
         public=False,
     )

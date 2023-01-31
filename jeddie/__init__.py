@@ -17,6 +17,8 @@ def create_app():
 
     from jeddie.routes import frontend_bp
     app.register_blueprint(frontend_bp)
+    from jeddie.routes import backend_bp
+    app.register_blueprint(backend_bp)
 
     @app.route('/')
     def index():
