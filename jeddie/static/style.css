@@ -131,6 +131,7 @@ main#story {
 main#wedding {
     background-image: url("images/hob.jpg");
     background-position: 75% 66%;
+    overflow: scroll;
 }
 
 main#photos {
