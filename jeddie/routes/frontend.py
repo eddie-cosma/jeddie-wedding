@@ -48,23 +48,23 @@ def wedding():
     return render_template("wedding.html", **g.language)
 
 
-@bp.route('/rsvp', methods=['GET', 'POST'])
-@bp.route('/rsvp/<string:rsvp_code>', methods=['GET', 'POST'])
-def rsvp(rsvp_code: str = None):
-    recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
-    recaptcha_token = request.form.get('g-recaptcha-response', None)
-    if request.method == 'GET' or not verify_recaptcha(recaptcha_token, request.remote_addr):
-        return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
-
-    rsvp_code = rsvp_code or request.form.get('rsvp_code', '')
-    rsvp_code = rsvp_code.upper()
-    session = get_db()
-    if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
-        meals = session.query(Meal).all()
-        return render_template("rsvp_detail.html", party=party, meals=meals, **g.language)
-    else:
-        flash(g.language.get('lang_invalid_rsvp_code'))
-        return redirect(url_for('jeddie.rsvp'), 302)
+# @bp.route('/rsvp', methods=['GET', 'POST'])
+# @bp.route('/rsvp/<string:rsvp_code>', methods=['GET', 'POST'])
+# def rsvp(rsvp_code: str = None):
+#     recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
+#     recaptcha_token = request.form.get('g-recaptcha-response', None)
+#     if request.method == 'GET' or not verify_recaptcha(recaptcha_token, request.remote_addr):
+#         return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
+#
+#     rsvp_code = rsvp_code or request.form.get('rsvp_code', '')
+#     rsvp_code = rsvp_code.upper()
+#     session = get_db()
+#     if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
+#         meals = session.query(Meal).all()
+#         return render_template("rsvp_detail.html", party=party, meals=meals, **g.language)
+#     else:
+#         flash(g.language.get('lang_invalid_rsvp_code'))
+#         return redirect(url_for('jeddie.rsvp'), 302)
 
 
 @bp.route('/photos')
@@ -80,7 +80,7 @@ def hotel():
 @bp.route('/registry')
 def registry():
     session = get_db()
-    sq = session.query(Gift.id, Gift.item_id, func.sum(Gift.quantity).label('total_purchased'))\
+    sq = session.query(Gift.item_id, func.sum(Gift.quantity).label('total_purchased'))\
                 .group_by(Gift.item_id)\
                 .subquery()
     counts = aliased(Gift, sq, 'purchases')
@@ -136,19 +136,27 @@ def pay(item_id: int):
         if not is_item_available(session, item):
             return redirect(url_for('jeddie.registry'), 302)
 
-        if request.method == 'POST':
+        recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
+        recaptcha_token = request.form.get('g-recaptcha-response', None)
+
+        if request.method == 'POST' and verify_recaptcha(recaptcha_token, request.remote_addr):
             # Initialize payment process
             email = request.form.get('email', None)
             buyer_name = request.form.get('name', None)
             if not email or not buyer_name:
                 flash('Please enter a valid name and email address.')
-                return render_template('pre-pay.html', item=item, **g.language)
+                return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
             stripe_key = current_app.config.get('STRIPE_API_KEY')
-            intent = create_intent(item=item, email=email, buyer_name=buyer_name)
+            try:
+                intent = create_intent(item=item, email=email, buyer_name=buyer_name)
+            except:
+                flash('Please enter a valid email address')
+                return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
+
             return render_template('pay.html', item=item, public_key=stripe_key, intent=intent, **g.language)
         else:
-            return render_template('pre-pay.html', item=item, **g.language)
+            return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
     flash(g.language.get('lang_invalid_registry_item'))
     return redirect(url_for('jeddie.registry'), 302)

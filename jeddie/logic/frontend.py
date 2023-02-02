@@ -6,10 +6,10 @@ from sqlalchemy.orm.scoping import scoped_session
 from database.model import Item, Gift
 from middleware.email import log_to_email
 
+
 def is_item_available(session: scoped_session, item: Item) -> bool:
-    total_purchased = session.query(Gift.item_id,
-                                    func.coalesce(func.sum(Gift.quantity), 0).label('total')) \
-        .filter_by(item_id=item.id).one_or_none()
+    total_purchased = session.query(func.coalesce(func.sum(Gift.quantity), 0).label('total')) \
+                             .filter_by(item_id=item.id).one_or_none()
     if item.max_quantity <= total_purchased.total:
         return False
     else:
