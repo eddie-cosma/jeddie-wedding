@@ -145,7 +145,12 @@ def pay(item_id: int):
                 return render_template('pre-pay.html', item=item, **g.language)
 
             stripe_key = current_app.config.get('STRIPE_API_KEY')
-            intent = create_intent(item=item, email=email, buyer_name=buyer_name)
+            try:
+                intent = create_intent(item=item, email=email, buyer_name=buyer_name)
+            except:
+                flash('Please enter a valid email address')
+                return render_template('pre-pay.html', item=item, **g.language)
+
             return render_template('pay.html', item=item, public_key=stripe_key, intent=intent, **g.language)
         else:
             return render_template('pre-pay.html', item=item, **g.language)
