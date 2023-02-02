@@ -136,24 +136,27 @@ def pay(item_id: int):
         if not is_item_available(session, item):
             return redirect(url_for('jeddie.registry'), 302)
 
-        if request.method == 'POST':
+        recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
+        recaptcha_token = request.form.get('g-recaptcha-response', None)
+
+        if request.method == 'POST' and verify_recaptcha(recaptcha_token, request.remote_addr):
             # Initialize payment process
             email = request.form.get('email', None)
             buyer_name = request.form.get('name', None)
             if not email or not buyer_name:
                 flash('Please enter a valid name and email address.')
-                return render_template('pre-pay.html', item=item, **g.language)
+                return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
             stripe_key = current_app.config.get('STRIPE_API_KEY')
             try:
                 intent = create_intent(item=item, email=email, buyer_name=buyer_name)
             except:
                 flash('Please enter a valid email address')
-                return render_template('pre-pay.html', item=item, **g.language)
+                return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
             return render_template('pay.html', item=item, public_key=stripe_key, intent=intent, **g.language)
         else:
-            return render_template('pre-pay.html', item=item, **g.language)
+            return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
     flash(g.language.get('lang_invalid_registry_item'))
     return redirect(url_for('jeddie.registry'), 302)
