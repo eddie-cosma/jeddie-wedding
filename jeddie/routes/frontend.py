@@ -98,8 +98,7 @@ def registry_custom():
             item = create_custom_gift(session, float(price))
             return redirect(url_for('jeddie.pay', item_id=item.id), 302)
         else:
-            flash('You must enter a dollar amount between $1 and $5000 for custom gifts. For gifts exceeding this'
-                  ' amount, please consider leaving a check at the card box.')
+            flash(g.language.get('lang_error_invalid_gift_amount'))
             return redirect(url_for('jeddie.registry_custom'), 302)
 
     return render_template("registry-custom.html", **g.language)
@@ -117,12 +116,15 @@ def promise(item_id: int):
         else:
             buyer = request.form.get('buyer_name', None)
             if not buyer:
-                flash('Please enter a valid name.')
+                flash(g.language.get('lang_error_enter_valid_name'))
                 return render_template('promise.html', item=item, **g.language)
 
             record_gift(session, item, buyer)
             price_format = g.language.get('lang_registry_price_format', '$%.2f')
-            flash(f'Your cash/check gift of {price_format % (item.price / 100)} has been recorded. Thank you, {buyer}.')
+            price_string = price_format % (item.price / 100)
+            success_message_parts = (g.language.get('lang_success_gift_recorded_1'), price_string,
+                                     g.language.get('lang_success_gift_recorded_2'), buyer, '.')
+            flash(''.join(success_message_parts))
             return redirect(url_for('jeddie.registry'), 302)
 
     flash(g.language.get('lang_invalid_registry_item'))
@@ -144,14 +146,14 @@ def pay(item_id: int):
             email = request.form.get('email', None)
             buyer_name = request.form.get('name', None)
             if not email or not buyer_name:
-                flash('Please enter a valid name and email address.')
+                flash(g.language.get('lang_error_enter_valid_name_email'))
                 return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
             stripe_key = current_app.config.get('STRIPE_API_KEY')
             try:
                 intent = create_intent(item=item, email=email, buyer_name=buyer_name)
             except:
-                flash('Please enter a valid email address')
+                flash(g.language.get('lang_error_enter_valid_email'))
                 return render_template('pre-pay.html', item=item, site_key=recaptcha_site_key, **g.language)
 
             return render_template('pay.html', item=item, public_key=stripe_key, intent=intent, **g.language)
@@ -168,12 +170,12 @@ def post_pay():
     intent = request.args.get('payment_intent', None)
     client_secret = request.args.get('payment_intent', None)
     if not intent or not client_secret:
-        flash('Something went wrong.')
+        flash(g.language.get('lang_error_something_went_wrong'))
         return redirect(url_for('jeddie.registry'), 302)
 
     metadata = get_intent_metadata(intent)
     if 'item_id' not in metadata.keys() or 'buyer_name' not in metadata.keys():
-        flash('Something went wrong.')
+        flash(g.language.get('lang_error_something_went_wrong'))
         return redirect(url_for('jeddie.registry'), 302)
 
     session = get_db()

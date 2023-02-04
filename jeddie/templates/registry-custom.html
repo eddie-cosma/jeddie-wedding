@@ -2,11 +2,11 @@
 {% block title %}{{ lang_registry }}{% endblock %}
 {% block main_id %}registry{% endblock %}
 {% block content %}
-    <h1>Honeymoon fund</h1>
-    <p>Please enter a custom gift amount below.</p>
+    <h1>{{ lang_registry_custom_name }}</h1>
+    <p>{{ lang_registry_custom_instruction }}</p>
     <form method='post' action="{{ url_for('jeddie.registry_custom') }}">
-        <label for="price">Amount</label><br>
+        <label for="price">{{ lang_registry_custom_amount }}</label><br>
         $ <input type="number" step="0.01" min="1.00" max="5000.00" name="price" id="price" placeholder="0.00"><br>
-        <input type="submit" value="Continue">
+        <input type="submit" value="{{ lang_continue }}">
     </form>
 {% endblock %}

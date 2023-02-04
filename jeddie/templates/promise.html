@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 {% block title %}{{ lang_registry }}{% endblock %}
 {% block content %}
-    <h1>Instructions</h1>
-    <p>You may leave cash or a check in the card box at the wedding, or mail it to our address:</p>
+    <h1>{{ lang_promise_instructions }}</h1>
+    <p>{{ lang_promise_instruction_detail }}</p>
     {{ lang_home_address|safe }}
-    <h1>Confirm gift</h1>
+    <h1>{{ lang_promise_confirm_gift }}</h1>
     <form method="post" action="">
         <p><table>
             <tr>
-                <th>Gift</th>
-                <th>Price</th>
+                <th>{{ lang_pay_gift_name }}</th>
+                <th>{{ lang_pay_gift_price }}</th>
             </tr>
             <tr>
                 <td>{% if lang__ == 'ro' %}{{ item.name_ro }}{% else %}{{ item.name }}{% endif %}</td>
                 <td>{{ lang_registry_price_format|format(item.price / 100) }}</td>
             </tr>
         </table></p>
-        <p>Who can we thank for this gift?</p>
-        <label for="buyer_name">Your name(s)</label><br><input type="text" id="buyer_name" name="buyer_name" placeholder="John Doe and Jane Roe"><br>
-        <input type="submit" value="Confirm Gift">
+        <p>{{ lang_promise_who_can_we_thank }}</p>
+        <label for="buyer_name">{{ lang_promise_names }}</label><br><input type="text" id="buyer_name" name="buyer_name" placeholder="John Doe and Jane Roe"><br>
+        <input type="submit" value="{{ lang_promise_confirm_gift }}">
     </form>
 {% endblock %}

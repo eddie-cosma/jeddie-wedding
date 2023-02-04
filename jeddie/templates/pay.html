@@ -6,11 +6,11 @@
 {% endblock %}
 {% block content %}
     <form id="payment-form" data-secret="{{ intent.client_secret }}">
-        <h1>Confirm gift</h1>
+        <h1>{{ lang_pay_confirm_gift }}</h1>
         <p><table>
             <tr>
-                <th>Gift</th>
-                <th>Price</th>
+                <th>{{ lang_pay_gift_name }}</th>
+                <th>{{ lang_pay_gift_price }}</th>
             </tr>
             <tr>
                 <td>{% if lang__ == 'ro' %}{{ item.name_ro }}{% else %}{{ item.name }}{% endif %}</td>
@@ -18,17 +18,17 @@
             </tr>
         </table></p>
 
-        <h1>Your details</h1>
+        <h1>{{ lang_pay_your_details }}</h1>
         <p>
-            Name: {{ intent.metadata.get('buyer_name', 'Anonymous') }}<br>
-            Email: {{ intent.receipt_email }}
+            {{ lang_pay_buyer_name }}: {{ intent.metadata.get('buyer_name', 'Anonymous') }}<br>
+            {{ lang_pay_buyer_email }}: {{ intent.receipt_email }}
         </p>
 
-        <h1>Payment information</h1>
+        <h1>{{ lang_pay_payment_information }}</h1>
         <div id="payment-element">
             <!-- Elements will create form elements here -->
         </div>
-        <button id="submit">Submit</button>
+        <button id="submit">{{ lang_submit }}</button>
         <div id="error-message">
             <!-- Display error message to your customers here -->
         </div>

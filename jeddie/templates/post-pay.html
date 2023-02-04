@@ -11,7 +11,7 @@
 {% endblock %}
 {% block main_id %}registry{% endblock %}
 {% block content %}
-    <h1>Payment status</h1>
+    <h1>{{ lang_pay_payment_status }}</h1>
     <p><div id="message"></div></p>
     <p><a href="{{ url_for('jeddie.registry') }}">Click here</a> to return to the gift registry.</p>
     <script type="text/javascript">
@@ -19,20 +19,20 @@
             const message = document.querySelector('#message')
             switch (paymentIntent.status) {
                 case 'succeeded':
-                    message.innerText = 'Thank you! We received your gift of $' + (paymentIntent.amount / 100).toFixed(2) + '. An email confirmation will be sent to ' + paymentIntent.receipt_email + '.';
+                    message.innerText = '{{ lang_pay_status_succeeded_1 }}' + (paymentIntent.amount / 100).toFixed(2) + '{{ pay_status_succeeded_2 }}' + paymentIntent.receipt_email + '.';
                     fetch('../refresh_stripe_qty/' + paymentIntent.id).then();
                     break;
 
                 case 'processing':
-                    message.innerText = "Your gift is still processing. You may refresh this page to check the status. You will receive an email confirmation when we receive your gift.";
+                    message.innerText = "{{ lang_pay_status_processing }}";
                     break;
 
                 case 'requires_payment_method':
-                    message.innerText = 'Your gift failed to send. Please try again using another payment method.';
+                    message.innerText = '{{ lang_pay_status_requires_payment_method }}';
                     break;
 
                 default:
-                    message.innerText = 'Something went wrong and your gift was not processed. Please contact Jen and Eddie to alert them of this error.';
+                    message.innerText = '{{ lang_pay_status_generic_failure }}';
                     break;
             }
         });

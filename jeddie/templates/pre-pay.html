@@ -4,12 +4,12 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
 {% block content %}
-    <h1>Confirm email</h1>
-    <p>Where would you like an email receipt?</p>
+    <h1>{{ lang_pay_confirm_email }}</h1>
+    <p>{{ lang_pay_confirm_email_statement }}</p>
     <form method="post" action="">
-        <label for="name">Name</label><br><input type="text" id="name" name="name" placeholder="John Doe and Jane Roe"><br>
-        <label for="email">Email</label><br><input type="text" id="email" name="email" placeholder="j.doe@example.com"><br><br>
+        <label for="name">{{ lang_pay_buyer_name }}</label><br><input type="text" id="name" name="name" placeholder="John Doe and Jane Roe"><br>
+        <label for="email">{{ lang_pay_buyer_email }}</label><br><input type="text" id="email" name="email" placeholder="j.doe@example.com"><br><br>
         <div class="g-recaptcha" data-sitekey="{{ site_key }}" data-theme="dark"></div>
-        <input type="submit" value="Continue">
+        <input type="submit" value="{{ lang_continue }}">
     </form>
 {% endblock %}
