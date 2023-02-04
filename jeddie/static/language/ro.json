@@ -55,6 +55,7 @@
   "pay_status_processing": "Cadoul încă se procesează. Poți reîmprospăta această pagină pentru a verifica starea. Vei primi o confirmare prin e-mail când primim cadoul tău.",
   "pay_status_requires_payment_method": "Cadoul nu a fost trimis. Încearcă din nou folosind o altă metodă de plată.",
   "pay_status_generic_failure": "Ceva n-a mers bine și cadoul nu a fost procesat. Contactează-le pe Jen și Eddie.",
+  "pay_return_to_registry": "<a href=\"{{ url_for('jeddie.registry') }}\">Click aici</a> pentru a reveni la registrul de cadouri.",
   "promise_instructions": "Instrucțiuni",
   "promise_instruction_detail" : "Poți lăsa bani sau un cec în cutia de carduri la nuntă sau îl puteți trimite prin poștă la adresa noastră:",
   "promise_confirm_gift": "Confirmă cadoul",

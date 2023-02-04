@@ -55,6 +55,7 @@
   "pay_status_processing": "Your gift is still processing. You may refresh this page to check the status. You will receive an email confirmation when we receive your gift.",
   "pay_status_requires_payment_method": "Your gift failed to send. Please try again using another payment method.",
   "pay_status_generic_failure": "Something went wrong and your gift was not processed. Please contact Jen and Eddie to alert them of this error.",
+  "pay_return_to_registry": "<a href=\"{{ url_for('jeddie.registry') }}\">Click here</a> to return to the gift registry.",
   "promise_instructions": "Instructions",
   "promise_instruction_detail": "You may leave cash or a check in the card box at the wedding, or mail it to our address:",
   "promise_confirm_gift": "Confirm gift",
