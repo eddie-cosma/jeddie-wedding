@@ -94,12 +94,19 @@ def registry_custom():
     if request.method == 'POST':
         session = get_db()
         price = request.form.get('price', 0)
-        if price.isnumeric() and 5000 > float(price) > 1:
+
+        try:
+            price = float(price)
+            price_is_numeric = True
+        except ValueError:
+            price_is_numeric = False
+
+        if price_is_numeric and 5000 >= float(price) >= 1:
             item = create_custom_gift(session, float(price))
             return redirect(url_for('jeddie.pay', item_id=item.id), 302)
         else:
             flash(g.language.get('lang_error_invalid_gift_amount'))
-            return redirect(url_for('jeddie.registry_custom'), 302)
+            return render_template("registry-custom.html", **g.language)
 
     return render_template("registry-custom.html", **g.language)
 
