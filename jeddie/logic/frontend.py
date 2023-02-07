@@ -35,7 +35,7 @@ def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str 
 
 def create_custom_gift(session: scoped_session, price: float):
     name = 'Custom gift'
-    price = int(round(price, 2)) * 100
+    price = int(round(price, 2) * 100)
     custom_item = Item(
         name=name,
         name_ro=name,
