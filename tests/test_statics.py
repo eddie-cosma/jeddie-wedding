@@ -24,4 +24,4 @@ def test_landing_page_to_english_redirect(client):
     assert response.status_code == 302
 
     response = client.get('/', follow_redirects=True)
-    assert 'We\'re getting Married!' in response.text
+    assert 'We&#39;re getting married!' in response.text
