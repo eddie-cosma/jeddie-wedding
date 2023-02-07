@@ -34,7 +34,9 @@
 
     {% for item in items if item.Item.public %}
         {{ div_class_remain(item.remaining) }}
-            <img src="{{ url_for("static", filename="images/" + item.Item.photo_filename) }}" alt="{{ item.Item.name_ro }}" class="registry-thumbnail">
+            {% if item.Item.photo_filename %}
+                <img src="{{ url_for("static", filename="images/" + item.Item.photo_filename) }}" alt="{{ item.Item.name_ro }}" class="registry-thumbnail">
+            {% endif %}
             <div class="registry-item-detail">
                 {% if lang__ == 'ro' %}
                     <h2>{{ item.Item.name_ro }}</h2>
