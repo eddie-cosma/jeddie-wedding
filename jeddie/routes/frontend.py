@@ -101,8 +101,8 @@ def registry_custom():
         except ValueError:
             price_is_numeric = False
 
-        if price_is_numeric and 5000 >= float(price) >= 1:
-            item = create_custom_gift(session, float(price))
+        if price_is_numeric and 5000 >= price >= 1:
+            item = create_custom_gift(session, price)
             return redirect(url_for('jeddie.pay', item_id=item.id), 302)
         else:
             flash(g.language.get('lang_error_invalid_gift_amount'))
