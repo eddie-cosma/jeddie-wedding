@@ -21,23 +21,7 @@ class Guest(Base):
 class Party(Base):
     __tablename__ = 'party'
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    code = Column(String(6), nullable=False, default=random_id, unique=True, index=True)
-    rsvp_responded = Column(Boolean, default=False)
-    total_guests_allowed = Column(Integer, nullable=False)
-    address_id = Column(Integer, ForeignKey('address.id'))
-    address = relationship('Address')
     guests = relationship('Guest', back_populates='party')
-
-
-class Address(Base):
-    __tablename__ = 'address'
-    id = Column(Integer, primary_key=True)
-    street_address = Column(String(100), nullable=False)
-    city = Column(String(30), nullable=False)
-    state = Column(String(30), nullable=True)
-    postal_code = Column(String(10), nullable=False)
-    country = Column(String(20), nullable=False)
 
 
 class Meal(Base):

@@ -19,7 +19,7 @@ session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=en
 
 def get_db():
     if 'db' not in g:
-        from .model import Guest, Party, Address
+        from .model import Guest, Party
         g.db = session()
 
     return g.db

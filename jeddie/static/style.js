@@ -12,15 +12,6 @@ function toggle_menu_visibility() {
     }
 }
 
-function update_rsvp_form_action() {
-    let rsvp_code = document.getElementById('rsvp_code').value;
-    let current_path = window.location.pathname;
-    if (!contains_number(current_path) && rsvp_code !== '') {
-        document.rsvp_form.action = document.rsvp_form.action + '/' + rsvp_code;
-    }
-    document.forms['rsvp_form'].submit();
-}
-
 function add_guests(new_guests) {
     let guest_box = document.getElementById('guests');
 

@@ -4,13 +4,25 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
 {% block content %}
+    <p>Welcome!</p>
     <form name="rsvp_form" action="" method="post">
-        {% if rsvp_code %}
-            <input id="rsvp_code" type="hidden" value="{{ rsvp_code }}"><br>
-        {% else %}
-            <label for="rsvp_code">{{ lang_rsvp_code }}:</label> <input id="rsvp_code" type="text"><br>
-        {% endif %}
+        <div id="guests">
+            <h1>Guest</h1>
+                <input type="hidden" name="guest_id" value="{">
+                <label for="first_name">First name</label> <input type="text" name="first_name" id="first_name" value="" required><br>
+                <label for="last_name">Last name</label> <input type="text" name="last_name" id="last_name" value="" required><br>
+                <label for="email">Email</label> <input type="email" name="email" id="email" value=""><br>
+                <label for="meal">Meal choice</label><br>
+                {% for meal in meals %}
+                    <input type="radio" id="meal" name="meal" value=""> <label for="meal"></label><br>
+                {% endfor %}
+                <label for="dietary_restriction">Dietary restrictions</label><br><textarea name="dietary_restriction" id="dietary_restriction" rows="3" cols="40" maxlength="140"></textarea>
+        </div>
+
+        <p id="add_guests_notice">You may bring additional guest(s).</p>
+        <input type="button" id="add_guests_button" value="Add Guests" onclick="add_guests(1)">
+
         <div class="g-recaptcha" data-sitekey="{{ site_key }}" data-theme="dark"></div><br>
-        <input type="button" onclick="update_rsvp_form_action();" value="{{ lang_submit }}">
+        <input type="submit" value="{{ lang_submit }}">
     </form>
 {% endblock %}

@@ -10,7 +10,7 @@
   "rsvp_code": "Cod RSVP",
   "submit": "Trimite",
   "continue": "Continua",
-  "invalid_rsvp_code": "Codul RSVP pe care l-ai trimis este nevalid. Verifica ortografia și încearca din nou.",
+  "invalid_captcha_code": "Bifează caseta de lângă „Nu sunt un robot”.",
   "invalid_registry_item": "This registry item does not exist. Please select another item.",
   "landing_announcement": "Ne căsătorim!",
   "our_story_title": "Povestea noastră",

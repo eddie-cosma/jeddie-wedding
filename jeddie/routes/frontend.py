@@ -48,24 +48,17 @@ def wedding():
     return render_template("wedding.html", **g.language)
 
 
-# @bp.route('/rsvp', methods=['GET', 'POST'])
-# @bp.route('/rsvp/<string:rsvp_code>', methods=['GET', 'POST'])
-# def rsvp(rsvp_code: str = None):
-#     recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
-#     recaptcha_token = request.form.get('g-recaptcha-response', None)
-#     if request.method == 'GET' or not verify_recaptcha(recaptcha_token, request.remote_addr):
-#         return render_template('rsvp.html', rsvp_code=rsvp_code, site_key=recaptcha_site_key, **g.language)
-#
-#     rsvp_code = rsvp_code or request.form.get('rsvp_code', '')
-#     rsvp_code = rsvp_code.upper()
-#     session = get_db()
-#     if party := session.query(Party).where(Party.code == rsvp_code).one_or_none():
-#         meals = session.query(Meal).all()
-#         return render_template("rsvp_detail.html", party=party, meals=meals, **g.language)
-#     else:
-#         flash(g.language.get('lang_invalid_rsvp_code'))
-#         return redirect(url_for('jeddie.rsvp'), 302)
-
+@bp.route('/rsvp', methods=['GET', 'POST'])
+def rsvp():
+    recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
+    recaptcha_token = request.form.get('g-recaptcha-response', None)
+    if request.method == 'GET':
+        return render_template('rsvp.html', site_key=recaptcha_site_key, **g.language)
+    elif request.method == 'POST':
+        if not verify_recaptcha(recaptcha_token, request.remote_addr):
+            flash(g.language.get('lang_invalid_captcha_code'))
+            return render_template('rsvp.html', site_key=recaptcha_site_key, **g.language)
+        # TODO: Write rest of logic for form submission
 
 @bp.route('/photos')
 def photos():

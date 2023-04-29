@@ -10,7 +10,7 @@
   "rsvp_code": "RSVP code",
   "submit": "Submit",
   "continue": "Continue",
-  "invalid_rsvp_code": "The RSVP code you submitted is invalid. Please check the spelling and try again.",
+  "invalid_captcha_code": "Please check the box next to \"I'm not a robot.\"",
   "invalid_registry_item": "This registry item does not exist. Please select another item.",
   "landing_announcement": "We're getting married!",
   "our_story_title": "Our story",

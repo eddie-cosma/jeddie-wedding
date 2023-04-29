@@ -2,24 +2,11 @@ import pytest
 
 from jeddie import create_app
 from jeddie.database import get_db, Base, engine
-from jeddie.database.model import Guest, Party, Address, Item, Gift
+from jeddie.database.model import Guest, Party, Item, Gift
 
 
 def load_database_test_data(session):
-    address_1 = Address(
-        street_address='1234 Main St',
-        city='New York',
-        state='NY',
-        postal_code='10001',
-        country='United States'
-    )
-    party_1 = Party(
-        name='John and Jane',
-        code='12345A',
-        rsvp_responded=False,
-        total_guests_allowed=2,
-        address_id=address_1.id,
-    )
+    party_1 = Party()
     guest_1 = Guest(
         first_name='John',
         last_name='Doe',
@@ -32,13 +19,7 @@ def load_database_test_data(session):
         email='jane.roe@example.com',
         party_id=party_1.id
     )
-    party_2 = Party(
-        name='Ben and Becky',
-        code='12345B',
-        rsvp_responded=False,
-        total_guests_allowed=3,
-        address_id=address_1.id,
-    )
+    party_2 = Party()
     guest_3 = Guest(
         first_name='Ben',
         last_name='Smith',
@@ -74,7 +55,7 @@ def load_database_test_data(session):
         item=item_2,
         quantity=1
     )
-    for item in [address_1, party_1, guest_1, guest_2, party_2, guest_3, guest_4,
+    for item in [party_1, guest_1, guest_2, party_2, guest_3, guest_4,
                  item_1, item_2, gift_1]:
         session.add(item)
     session.commit()
