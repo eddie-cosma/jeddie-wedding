@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ lang_rsvp }}{% endblock %}
+{% block content %}
+    <p>Please select your name</p>
+    <ul>
+    {% for guest in guests %}
+        <li><a href="{{ url_for('jeddie.rsvp_detail', party_id=guest.party.uuid) }}">{{ guest.first_name }} {{ guest.last_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

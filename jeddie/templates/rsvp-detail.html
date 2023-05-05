@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ lang_rsvp }}{% endblock %}
+{% block content %}
+    <p>Welcome!</p>
+    <form name="rsvp_form" action="" method="post">
+        {% for guest in party.guests %}
+        <div id="guests">
+            <h1>Guest</h1>
+                <label for="first_name">First name</label> <input type="text" name="first_name" id="first_name" value="{{ guest.first_name }}" required><br>
+                <label for="last_name">Last name</label> <input type="text" name="last_name" id="last_name" value="{{ guest.last_name }}" required><br>
+                <label for="meal">Meal choice</label><br>
+                {% for meal in meals %}
+                    <input type="radio" id="meal" name="meal" value=""> <label for="meal"></label><br>
+                {% endfor %}
+                <label for="dietary_restriction">Dietary restrictions</label><br><textarea name="dietary_restriction" id="dietary_restriction" rows="3" cols="40" maxlength="140"></textarea>
+        </div>
+        {% endfor %}
+        <input type="submit" value="{{ lang_submit }}">
+    </form>
+{% endblock %}

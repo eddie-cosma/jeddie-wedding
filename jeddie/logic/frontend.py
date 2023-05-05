@@ -3,8 +3,20 @@ from flask import redirect, url_for, g, flash
 from sqlalchemy.sql import func
 from sqlalchemy.orm.scoping import scoped_session
 
-from database.model import Item, Gift
+from database.model import Item, Gift, Guest
 from middleware.email import log_to_email
+
+
+def get_name_matches(session: scoped_session, search_term: str) -> list[Guest] | None:
+    *first_names, last_name = search_term.split(' ')
+    first_name = ' '.join(first_names)
+
+    hits = session.query(Guest).where(Guest.last_name == last_name).all()
+    for hit in hits:
+        if hit.first_name == first_name:
+            return [hit]
+    else:
+        return hits
 
 
 def is_item_available(session: scoped_session, item: Item) -> bool:

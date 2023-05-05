@@ -6,7 +6,7 @@ from sqlalchemy.sql import func
 
 from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
-from logic.frontend import is_item_available, record_gift, create_custom_gift
+from logic.frontend import get_name_matches, is_item_available, record_gift, create_custom_gift
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent, get_intent_metadata
 
@@ -51,14 +51,43 @@ def wedding():
 @bp.route('/rsvp', methods=['GET', 'POST'])
 def rsvp():
     recaptcha_site_key = current_app.config.get('RECAPTCHA_SITE_KEY', None)
+    return render_template('rsvp.html', site_key=recaptcha_site_key, **g.language)
+
+
+@bp.route('/rsvp_search', methods=['POST'])
+def rsvp_search():
     recaptcha_token = request.form.get('g-recaptcha-response', None)
-    if request.method == 'GET':
-        return render_template('rsvp.html', site_key=recaptcha_site_key, **g.language)
-    elif request.method == 'POST':
-        if not verify_recaptcha(recaptcha_token, request.remote_addr):
-            flash(g.language.get('lang_invalid_captcha_code'))
-            return render_template('rsvp.html', site_key=recaptcha_site_key, **g.language)
-        # TODO: Write rest of logic for form submission
+    if not verify_recaptcha(recaptcha_token, request.remote_addr):
+        flash(g.language.get('lang_invalid_captcha_code'))
+        return redirect(url_for('jeddie.rsvp'), 302)
+
+    search_term = request.form.get('name', None)
+    if not search_term:
+        return redirect(url_for('jeddie.rsvp'), 302)
+
+    session = get_db()
+    match get_name_matches(session, search_term):
+        case []:
+            flash('No results found')  # TODO: replace with language token
+            return redirect(url_for('jeddie.rsvp'), 302)
+        case [single_match]:
+            return redirect(url_for('jeddie.rsvp_detail', party_id=single_match.party.uuid))
+        case [*multiple_matches]:
+            # TODO: Add logic to determine if all matches have the same party ID
+            return render_template('rsvp-select.html', guests=multiple_matches, **g.language)
+        case _:
+            return redirect(url_for('jeddie.rsvp'), 302)
+
+
+@bp.route('/rsvp_detail/<string:party_id>', methods=['GET'])
+def rsvp_detail(party_id: str):
+    session = get_db()
+    if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
+        return render_template('rsvp-detail.html', party=party, **g.language)
+    else:
+        flash('Invalid party')  # TODO: replace with language token
+        return redirect(url_for('jeddie.rsvp'), 302)
+
 
 @bp.route('/photos')
 def photos():

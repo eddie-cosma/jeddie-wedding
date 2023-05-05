@@ -1,7 +1,6 @@
-import random
+import uuid
 
 
-def random_id():
+def generate_uuid():
     """Generate a random ID for party RSVP"""
-    character_set = 'BCDFGHJKMPQRTVWXY2346789'
-    return ''.join(random.choice(character_set) for i in range(6))
+    return str(uuid.uuid4())

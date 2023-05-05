@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
 from . import Base
-from .helpers import random_id
+from .helpers import generate_uuid
 
 
 class Guest(Base):
@@ -10,7 +10,7 @@ class Guest(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
-    email = Column(String(50), nullable=True)
+    attending = Column(Boolean, nullable=False, default=False)
     party_id = Column(Integer, ForeignKey('party.id'))
     party = relationship('Party', back_populates='guests')
     meal_id = Column(Integer, ForeignKey('meal.id'))
@@ -21,6 +21,7 @@ class Guest(Base):
 class Party(Base):
     __tablename__ = 'party'
     id = Column(Integer, primary_key=True)
+    uuid = Column(String, nullable=False, default=generate_uuid)
     guests = relationship('Guest', back_populates='party')
 
 
