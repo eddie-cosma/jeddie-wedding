@@ -11,12 +11,22 @@ def get_name_matches(session: scoped_session, search_term: str) -> list[Guest] |
     *first_names, last_name = search_term.split(' ')
     first_name = ' '.join(first_names)
 
-    hits = session.query(Guest).where(Guest.last_name == last_name).all()
+    hits = session.query(Guest).where(
+        func.lower(Guest.last_name) == last_name.lower()).all()
     for hit in hits:
         if hit.first_name == first_name:
             return [hit]
     else:
         return hits
+
+
+def all_same_party(matches: list[Guest]) -> bool:
+    reference_party = matches[0].party_id
+    for match in matches:
+        if match.party_id != reference_party:
+            return False
+
+    return True
 
 
 def is_item_available(session: scoped_session, item: Item) -> bool:

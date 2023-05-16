@@ -3,83 +3,54 @@ import pytest
 from . import app, client, runner
 
 
-# def test_rsvp_no_code(client):
-#     response = client.get('/en/rsvp')
-#     assert '<label for="rsvp_code">RSVP code:</label> <input id="rsvp_code" type="text"><br>' in response.text
-#     assert '<input id="rsvp_code" type="hidden"' not in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' in response.text
-#
-#
-# def test_rsvp_with_code(client):
-#     response = client.get('/en/rsvp/12345A')
-#     assert '<input id="rsvp_code" type="hidden" value="12345A"><br>' in response.text
-#     assert '<label for="rsvp_code">RSVP code:</label> <input id="rsvp_code" type="text"><br>' not in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' in response.text
-#
-#
-# def test_rsvp_no_code_post(client):
-#     payload = {
-#         'g-recaptcha-response': 'test',
-#     }
-#     response = client.post('/en/rsvp', data=payload)
-#     assert response.status_code == 302
-#
-#     response = client.post('/en/rsvp', data=payload, follow_redirects=True)
-#     assert '<label for="rsvp_code">RSVP code:</label> <input id="rsvp_code" type="text"><br>' in response.text
-#     assert '<input id="rsvp_code" type="hidden"' not in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' in response.text
-#
-#
-# def test_rsvp_with_incorrect_code_post(client):
-#     payload = {
-#         'g-recaptcha-response': 'test',
-#         'rsvp_code': 'ABCDEF'
-#     }
-#     response = client.post('/en/rsvp', data=payload)
-#     assert response.status_code == 302
-#
-#     response = client.post('/en/rsvp', data=payload, follow_redirects=True)
-#     assert '<label for="rsvp_code">RSVP code:</label> <input id="rsvp_code" type="text"><br>' in response.text
-#     assert '<input id="rsvp_code" type="hidden"' not in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' in response.text
-#
-#
-# def test_rsvp_with_incorrect_code_url_post(client):
-#     payload = {
-#         'g-recaptcha-response': 'test',
-#     }
-#     response = client.post('/en/rsvp/ABCDEF', data=payload)
-#     assert response.status_code == 302
-#
-#     response = client.post('/en/rsvp/ABCDEF', data=payload, follow_redirects=True)
-#     assert '<label for="rsvp_code">RSVP code:</label> <input id="rsvp_code" type="text"><br>' in response.text
-#     assert '<input id="rsvp_code" type="hidden"' not in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' in response.text
-#
-#
-# def test_rsvp_with_code_post(client):
-#     payload = {
-#         'g-recaptcha-response': 'test',
-#         'rsvp_code': '12345A'
-#     }
-#     response = client.post('/en/rsvp', data=payload)
-#     assert 'Welcome, John and Jane' in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' not in response.text
-#
-#
-# def test_rsvp_with_code_url_post(client):
-#     payload = {
-#         'g-recaptcha-response': 'test',
-#     }
-#     response = client.post('/en/rsvp/12345A', data=payload)
-#     assert 'Welcome, John and Jane' in response.text
-#     assert '<div class="g-recaptcha" data-sitekey="' not in response.text
-#
-#
-# def test_rsvp_with_plus_one(client):
-#     payload = {
-#         'g-recaptcha-response': 'test',
-#     }
-#     response = client.post('/en/rsvp/12345B', data=payload)
-#     assert 'Welcome, Ben and Becky' in response.text
-#     assert '<input type="button" id="add_guests_button"' in response.text
+def test_rsvp_no_name_post(client):
+    payload = {
+        'g-recaptcha-response': 'test'
+    }
+    response = client.post('/en/rsvp_search', data=payload)
+    assert response.status_code == 302
+
+    response = client.post('/en/rsvp_search', data=payload, follow_redirects=True)
+    assert '<label for="name">Name</label> <input type="text" name="name" id="name" value="" required>' in response.text
+    assert '<div class="g-recaptcha" data-sitekey="' in response.text
+
+
+def test_rsvp_no_results_post(client):
+    payload = {
+        'g-recaptcha-response': 'test',
+        'name': 'NoResultSearch'
+    }
+    response = client.post('/en/rsvp_search', data=payload)
+    assert response.status_code == 302
+
+    response = client.post('/en/rsvp_search', data=payload, follow_redirects=True)
+    assert 'No results found' in response.text
+    assert '<label for="name">Name</label> <input type="text" name="name" id="name" value="" required>' in response.text
+    assert '<div class="g-recaptcha" data-sitekey="' in response.text
+
+
+@pytest.mark.parametrize('name', ['Doe', 'doe'])
+def test_rsvp_multiple_results_post(client, name):
+    payload = {
+        'g-recaptcha-response': 'test',
+        'name': name
+    }
+    response = client.post('/en/rsvp_search', data=payload)
+    assert response.status_code == 200
+    assert 'John Doe</a></li>' in response.text
+    assert 'James Doe</a></li>' in response.text
+
+
+@pytest.mark.parametrize('name', ['Smith', 'smith'])
+def test_rsvp_multiple_results_same_party_post(client, name):
+    payload = {
+        'g-recaptcha-response': 'test',
+        'name': name
+    }
+    response = client.post('/en/rsvp_search', data=payload)
+    assert response.status_code == 302
+
+    response = client.post('/en/rsvp_search', data=payload, follow_redirects=True)
+    assert '<input type="text" name="first_name" id="first_name" value="Ben" required>' in response.text
+    assert '<input type="text" name="last_name" id="last_name" value="Smith" required>' in response.text
+    assert '<input type="text" name="first_name" id="first_name" value="Becky" required>' in response.text

@@ -10,27 +10,29 @@ def load_database_test_data(session):
     guest_1 = Guest(
         first_name='John',
         last_name='Doe',
-        email='john.doe@example.com',
-        party_id=party_1.id
+        party=party_1
     )
     guest_2 = Guest(
         first_name='Jane',
         last_name='Roe',
-        email='jane.roe@example.com',
-        party_id=party_1.id
+        party=party_1
     )
     party_2 = Party()
     guest_3 = Guest(
         first_name='Ben',
         last_name='Smith',
-        email='ben.smith@example.com',
-        party_id=party_2.id
+        party=party_2
     )
     guest_4 = Guest(
         first_name='Becky',
         last_name='Smith',
-        email='becky.smith@example.com',
-        party_id=party_2.id
+        party=party_2
+    )
+    party_3 = Party()
+    guest_5 = Guest(
+        first_name='James',
+        last_name='Doe',
+        party=party_3
     )
     item_1 = Item(
         name='Test Item 1',
@@ -55,7 +57,7 @@ def load_database_test_data(session):
         item=item_2,
         quantity=1
     )
-    for item in [party_1, guest_1, guest_2, party_2, guest_3, guest_4,
+    for item in [party_1, guest_1, guest_2, party_2, guest_3, guest_4, party_3, guest_5,
                  item_1, item_2, gift_1]:
         session.add(item)
     session.commit()
