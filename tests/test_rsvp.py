@@ -24,7 +24,7 @@ def test_rsvp_no_results_post(client):
     assert response.status_code == 302
 
     response = client.post('/en/rsvp_search', data=payload, follow_redirects=True)
-    assert 'No results found' in response.text
+    assert 'We could not find your name on the guest list' in response.text
     assert '<label for="name">Name</label> <input type="text" name="name" id="name" value="" required>' in response.text
     assert '<div class="g-recaptcha" data-sitekey="' in response.text
 
