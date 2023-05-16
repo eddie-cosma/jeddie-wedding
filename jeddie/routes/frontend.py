@@ -68,7 +68,7 @@ def rsvp_search():
     session = get_db()
     match get_name_matches(session, search_term):
         case []:
-            flash('No results found')  # TODO: replace with language token
+            flash(g.language.get('lang_rsvp_no_results'))
             return redirect(url_for('jeddie.rsvp'), 302)
         case [single_match]:
             return redirect(url_for('jeddie.rsvp_detail', party_id=single_match.party.uuid))
@@ -87,7 +87,6 @@ def rsvp_detail(party_id: str):
     if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
         return render_template('rsvp-detail.html', party=party, **g.language)
     else:
-        flash('Invalid party')  # TODO: replace with language token
         return redirect(url_for('jeddie.rsvp'), 302)
 
 
