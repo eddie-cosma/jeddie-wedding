@@ -85,7 +85,8 @@ def rsvp_search():
 def rsvp_detail(party_id: str):
     session = get_db()
     if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
-        return render_template('rsvp-detail.html', party=party, **g.language)
+        meals = session.query(Meal).all()
+        return render_template('rsvp-detail.html', party=party, meals=meals, **g.language)
     else:
         return redirect(url_for('jeddie.rsvp'), 302)
 
