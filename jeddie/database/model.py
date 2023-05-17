@@ -10,7 +10,7 @@ class Guest(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
-    attending = Column(Boolean, nullable=False, default=False)
+    attending = Column(Boolean, nullable=True)
     party_id = Column(Integer, ForeignKey('party.id'))
     party = relationship('Party', back_populates='guests')
     meal_id = Column(Integer, ForeignKey('meal.id'))
