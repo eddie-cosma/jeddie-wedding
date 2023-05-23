@@ -16,11 +16,13 @@ class Guest(Base):
     meal_id = Column(Integer, ForeignKey('meal.id'))
     meal = relationship('Meal')
     dietary_restriction = Column(String(140), nullable=True)
+    finalized = Column(Boolean, nullable=False, default=False)
 
 
 class Party(Base):
     __tablename__ = 'party'
     id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
     uuid = Column(String, nullable=False, default=generate_uuid)
     guests = relationship('Guest', back_populates='party')
 

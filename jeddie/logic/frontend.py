@@ -3,7 +3,7 @@ from flask import redirect, url_for, g, flash
 from sqlalchemy.sql import func
 from sqlalchemy.orm.scoping import scoped_session
 
-from database.model import Item, Gift, Guest
+from database.model import Item, Gift, Guest, Party
 from middleware.email import log_to_email
 
 
@@ -11,22 +11,14 @@ def get_name_matches(session: scoped_session, search_term: str) -> list[Guest] |
     *first_names, last_name = search_term.split(' ')
     first_name = ' '.join(first_names)
 
-    hits = session.query(Guest).where(
-        func.lower(Guest.last_name) == last_name.lower()).all()
+    hits = session.query(Party).filter(
+            Party.guests.any(func.lower(Guest.last_name) == last_name.lower())
+    ).distinct().all()
     for hit in hits:
-        if hit.first_name == first_name:
+        if first_name in [guest.first_name for guest in hit.guests]:
             return [hit]
     else:
         return hits
-
-
-def all_same_party(matches: list[Guest]) -> bool:
-    reference_party = matches[0].party_id
-    for match in matches:
-        if match.party_id != reference_party:
-            return False
-
-    return True
 
 
 def is_item_available(session: scoped_session, item: Item) -> bool:

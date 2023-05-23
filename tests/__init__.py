@@ -6,7 +6,7 @@ from jeddie.database.model import Guest, Party, Item, Gift
 
 
 def load_database_test_data(session):
-    party_1 = Party()
+    party_1 = Party(name='Jane Doe and John Roe')
     guest_1 = Guest(
         first_name='John',
         last_name='Doe',
@@ -17,7 +17,7 @@ def load_database_test_data(session):
         last_name='Roe',
         party=party_1
     )
-    party_2 = Party()
+    party_2 = Party(name='Ben and Becky Smith')
     guest_3 = Guest(
         first_name='Ben',
         last_name='Smith',
@@ -28,7 +28,7 @@ def load_database_test_data(session):
         last_name='Smith',
         party=party_2
     )
-    party_3 = Party()
+    party_3 = Party(name='James Doe')
     guest_5 = Guest(
         first_name='James',
         last_name='Doe',

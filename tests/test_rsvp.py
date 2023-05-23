@@ -37,7 +37,7 @@ def test_rsvp_multiple_results_post(client, name):
     }
     response = client.post('/en/rsvp_search', data=payload)
     assert response.status_code == 200
-    assert 'John Doe</a></li>' in response.text
+    assert 'Jane Doe and John Roe</a></li>' in response.text
     assert 'James Doe</a></li>' in response.text
 
 
@@ -51,6 +51,5 @@ def test_rsvp_multiple_results_same_party_post(client, name):
     assert response.status_code == 302
 
     response = client.post('/en/rsvp_search', data=payload, follow_redirects=True)
-    assert '<input type="text" name="first_name" id="first_name" value="Ben" required>' in response.text
-    assert '<input type="text" name="last_name" id="last_name" value="Smith" required>' in response.text
-    assert '<input type="text" name="first_name" id="first_name" value="Becky" required>' in response.text
+    assert 'Ben Smith <br>' in response.text
+    assert 'Becky Smith <br>' in response.text

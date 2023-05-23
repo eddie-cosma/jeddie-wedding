@@ -6,7 +6,7 @@ from sqlalchemy.sql import func
 
 from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
-from logic.frontend import get_name_matches, all_same_party, is_item_available, record_gift, create_custom_gift
+from logic.frontend import get_name_matches, is_item_available, record_gift, create_custom_gift
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent, get_intent_metadata
 
@@ -71,12 +71,9 @@ def rsvp_search():
             flash(g.language.get('lang_rsvp_no_results'))
             return redirect(url_for('jeddie.rsvp'), 302)
         case [single_match]:
-            return redirect(url_for('jeddie.rsvp_detail', party_id=single_match.party.uuid))
+            return redirect(url_for('jeddie.rsvp_detail', party_id=single_match.uuid))
         case [*multiple_matches]:
-            if all_same_party(multiple_matches):
-                return redirect(url_for('jeddie.rsvp_detail', party_id=multiple_matches[0].party.uuid))
-            else:
-                return render_template('rsvp-select.html', guests=multiple_matches, **g.language)
+            return render_template('rsvp-select.html', parties=multiple_matches, **g.language)
         case _:
             return redirect(url_for('jeddie.rsvp'), 302)
 
