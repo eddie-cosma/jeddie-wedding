@@ -1,18 +1,12 @@
 {% extends "base.html" %}
 {% block title %}{{ lang_rsvp }}{% endblock %}
 {% block content %}
-    <p>Welcome!</p>
+    <h1>Reservation</h1>
     <form name="rsvp_form" action="" method="post">
         {% for guest in party.guests %}
-        <div id="guests">
-            <h1>Guest</h1>
-                {{ guest.first_name }} {{ guest.last_name }} <br>
-                <label for="meal">Meal choice</label><br>
-                {% for meal in meals %}
-                    <input type="radio" id="meal_{{ meal.id }}" name="meal" value="{{ meal.id }}"> <label for="meal_{{ meal.id }}">{{ meal.name }}</label><br>
-                {% endfor %}
-                <label for="dietary_restriction">Dietary restrictions</label><br><textarea name="dietary_restriction" id="dietary_restriction" rows="3" cols="40" maxlength="140"></textarea>
-        </div>
+            <h2>{{ guest.first_name }} {{ guest.last_name }}</h2>
+            <input type="radio" id="{{ guest.id }}_yes" name="{{ guest.id }}" value="1" {% if guest.attending == True %}checked{% endif %}> <label for="{{ guest.id }}_yes">Attending</label> <br>
+            <input type="radio" id="{{ guest.id }}_no" name="{{ guest.id }}" value="0" {% if guest.attending == False %}checked{% endif %}> <label for="{{ guest.id }}_no">Not Attending</label> <br>
         {% endfor %}
         <input type="submit" value="{{ lang_submit }}">
     </form>

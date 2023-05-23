@@ -6,7 +6,8 @@ from sqlalchemy.sql import func
 
 from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
-from logic.frontend import get_name_matches, is_item_available, record_gift, create_custom_gift
+from logic.frontend import get_name_matches, get_unfinalized_guest, update_reservation,\
+    is_item_available, record_gift, create_custom_gift
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent, get_intent_metadata
 
@@ -78,14 +79,41 @@ def rsvp_search():
             return redirect(url_for('jeddie.rsvp'), 302)
 
 
-@bp.route('/rsvp_detail/<string:party_id>', methods=['GET'])
+@bp.route('/rsvp_detail/<string:party_id>', methods=['GET', 'POST'])
 def rsvp_detail(party_id: str):
     session = get_db()
+    if request.method == 'POST':
+        party = session.query(Party).where(Party.uuid == party_id).one_or_none()
+        for guest_id, attending in request.form.items():
+            guest = session.query(Guest).where(Guest.id == guest_id).one_or_none()
+            if not guest or not party or guest not in party.guests:
+                redirect(url_for('jeddie.rsvp'), 302)
+            update_reservation(guest, attending)
+        session.commit()
+
+        if next_guest := get_unfinalized_guest(session, party):
+            return redirect(url_for('jeddie.rsvp_detail_guest',
+                                    party_id=party_id, guest_id=next_guest.id), 302)
+        else:
+            flash('Thank you for your reservation')  # TODO: internationalize
+
     if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
-        meals = session.query(Meal).all()
-        return render_template('rsvp-detail.html', party=party, meals=meals, **g.language)
+        return render_template('rsvp-detail.html', party=party, **g.language)
     else:
         return redirect(url_for('jeddie.rsvp'), 302)
+
+
+@bp.route('/rsvp_detail/<string:party_id>/<int:guest_id>', methods=['GET'])
+def rsvp_detail_guest(party_id: str, guest_id: int):
+    session = get_db()
+    party = session.query(Party).where(Party.uuid == party_id).one_or_none()
+    guest = session.query(Guest).where(Guest.id == guest_id).one_or_none()
+
+    if not guest or not party or guest not in party.guests:
+        return redirect(url_for('jeddie.rsvp'), 302)
+
+    meals = session.query(Meal).all()
+    return render_template('rsvp-detail-guest.html', guest=guest, party=party, meals=meals, **g.language)
 
 
 @bp.route('/photos')

@@ -21,6 +21,21 @@ def get_name_matches(session: scoped_session, search_term: str) -> list[Guest] |
         return hits
 
 
+def get_unfinalized_guest(session: scoped_session, party: Party):
+    return session.query(Guest).where(Guest.party == party,
+                                      Guest.attending == True,
+                                      Guest.finalized == False).first()
+
+
+def update_reservation(guest: Guest, response: str):
+    response = bool(int(response))
+    guest.attending = response
+    if not response:
+        guest.finalized = True
+    else:
+        guest.finalized = False
+
+
 def is_item_available(session: scoped_session, item: Item) -> bool:
     total_purchased = session.query(func.coalesce(func.sum(Gift.quantity), 0).label('total')) \
                              .filter_by(item_id=item.id).one_or_none()

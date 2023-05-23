@@ -51,5 +51,5 @@ def test_rsvp_multiple_results_same_party_post(client, name):
     assert response.status_code == 302
 
     response = client.post('/en/rsvp_search', data=payload, follow_redirects=True)
-    assert 'Ben Smith <br>' in response.text
-    assert 'Becky Smith <br>' in response.text
+    assert '<h2>Ben Smith</h2>' in response.text
+    assert '<h2>Becky Smith</h2>' in response.text
