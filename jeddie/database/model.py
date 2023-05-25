@@ -16,6 +16,8 @@ class Guest(Base):
     meal_id = Column(Integer, ForeignKey('meal.id'))
     meal = relationship('Meal')
     dietary_restriction = Column(String(140), nullable=True)
+    song_choice = Column(String(100), nullable=True)
+    is_plus_one = Column(Boolean, nullable=False, default=False)
     finalized = Column(Boolean, nullable=False, default=False)
 
 

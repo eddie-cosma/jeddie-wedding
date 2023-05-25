@@ -5,9 +5,11 @@
     <form name="rsvp_form" action="" method="post">
         {% for guest in party.guests %}
             <h2>{{ guest.first_name }} {{ guest.last_name }}</h2>
-            <input type="radio" id="{{ guest.id }}_yes" name="{{ guest.id }}" value="1" {% if guest.attending == True %}checked{% endif %}> <label for="{{ guest.id }}_yes">Attending</label> <br>
-            <input type="radio" id="{{ guest.id }}_no" name="{{ guest.id }}" value="0" {% if guest.attending == False %}checked{% endif %}> <label for="{{ guest.id }}_no">Not Attending</label> <br>
+            <input type="radio" id="{{ guest.id }}_yes" name="{{ guest.id }}" value="1" {% if guest.attending == True %}checked{% endif %} required onchange="update_reservation_submit()"> <label for="{{ guest.id }}_yes">Attending</label> <br>
+            <input type="radio" id="{{ guest.id }}_no" name="{{ guest.id }}" value="0" {% if guest.attending == False %}checked{% endif %} required onchange="update_reservation_submit()"> <label for="{{ guest.id }}_no">Not Attending</label> <br>
         {% endfor %}
-        <input type="submit" value="{{ lang_submit }}">
+        <input type="submit" id="next_submit" value="{{ lang_submit }}">
     </form>
+
+    <script>update_reservation_submit()</script>
 {% endblock %}

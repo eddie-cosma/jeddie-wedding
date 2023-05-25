@@ -37,6 +37,7 @@
 body {
     color: var(--alt-background);
     background-color: var(--primary-background);
+    accent-color: var(--accent);
     font-family: "Tofino Pro", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -190,8 +191,9 @@ input[type=button]:hover, input[type=submit]:hover, button:hover {
     cursor: pointer;
 }
 
-input[type=number], input[type=text] {
+input[type=number], input[type=text], textarea {
     font-size: 16pt;
+    font-family: inherit;
     background-color: var(--alt-background-dark);
     color: var(--alt-background);
     border: 1px solid var(--primary-background);
@@ -199,6 +201,12 @@ input[type=number], input[type=text] {
     -moz-appearance: textfield;
     padding: 0.2em 0.3em;
 }
+
+ input[type='radio'] {
+     transform: scale(1.4);
+     vertical-align: text-top;
+     margin-right: 1em;
+ }
 
 /* Remove arrows from number input */
 input::-webkit-outer-spin-button,
@@ -473,6 +481,10 @@ div#event-flow svg {
         text-align: left;
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    input[type=text], textarea {
+        width: 100%;
     }
 }
 

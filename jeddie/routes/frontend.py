@@ -96,6 +96,7 @@ def rsvp_detail(party_id: str):
                                     party_id=party_id, guest_id=next_guest.id), 302)
         else:
             flash('Thank you for your reservation')  # TODO: internationalize
+            return redirect(url_for('jeddie.rsvp'), 302)
 
     if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
         return render_template('rsvp-detail.html', party=party, **g.language)
@@ -103,7 +104,7 @@ def rsvp_detail(party_id: str):
         return redirect(url_for('jeddie.rsvp'), 302)
 
 
-@bp.route('/rsvp_detail/<string:party_id>/<int:guest_id>', methods=['GET'])
+@bp.route('/rsvp_detail/<string:party_id>/<int:guest_id>', methods=['GET', 'POST'])
 def rsvp_detail_guest(party_id: str, guest_id: int):
     session = get_db()
     party = session.query(Party).where(Party.uuid == party_id).one_or_none()
@@ -111,6 +112,38 @@ def rsvp_detail_guest(party_id: str, guest_id: int):
 
     if not guest or not party or guest not in party.guests:
         return redirect(url_for('jeddie.rsvp'), 302)
+
+    if request.method == 'POST':
+        error = False
+        if guest.is_plus_one:
+            first_name = request.form.get('first_name', None)
+            last_name = request.form.get('last_name', None)
+            if not first_name or not last_name:
+                flash('Please enter your first and last name.')  # TODO: internationalize
+                error = True
+            else:
+                guest.first_name = first_name
+                guest.last_name = last_name
+        chosen_meal = request.form.get('meal', None)
+        dietary_restriction = request.form.get('dietary_restriction', None)
+        song_choice = request.form.get('song_choice', None)
+        if not chosen_meal:
+            flash('Please select a meal option.')  # TODO: internationalize
+            error = True
+
+        if not error:
+            guest.meal_id = chosen_meal
+            guest.dietary_restriction = dietary_restriction
+            guest.song_choice = song_choice
+            guest.finalized = True
+            session.commit()
+
+        if next_guest := get_unfinalized_guest(session, party):
+            return redirect(url_for('jeddie.rsvp_detail_guest',
+                                    party_id=party_id, guest_id=next_guest.id), 302)
+        else:
+            flash('Thank you for your reservation')  # TODO: internationalize
+            return redirect(url_for('jeddie.rsvp'), 302)
 
     meals = session.query(Meal).all()
     return render_template('rsvp-detail-guest.html', guest=guest, party=party, meals=meals, **g.language)
