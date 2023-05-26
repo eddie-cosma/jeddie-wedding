@@ -25,11 +25,6 @@ def create_app():
         g.language_code = 'en'
         return redirect(url_for('jeddie.index'), code=302)
 
-    @app.route('/rsvp')
-    def rsvp():
-        g.language_code = 'en'
-        return redirect(url_for('jeddie.rsvp'), code=302)
-
     @app.teardown_appcontext
     def cleanup(resp_or_exc):
         if db := g.pop('db', None):
