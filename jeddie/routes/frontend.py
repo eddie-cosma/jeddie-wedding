@@ -1,4 +1,5 @@
 import json
+from decimal import Decimal, InvalidOperation
 
 from flask import g, current_app, render_template, Blueprint, abort, request, flash, redirect, url_for
 from sqlalchemy.orm import aliased
@@ -178,9 +179,9 @@ def registry_custom():
         price = request.form.get('price', 0)
 
         try:
-            price = float(price)
+            price = Decimal(price)
             price_is_numeric = True
-        except ValueError:
+        except InvalidOperation:
             price_is_numeric = False
 
         if price_is_numeric and 5000 >= price >= 1:

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import stripe
 from flask import redirect, url_for, g, flash
 from sqlalchemy.sql import func
@@ -62,7 +64,7 @@ def record_gift(session: scoped_session, item: Item, buyer: str, stripe_id: str 
     print(f'\tGift id: {gift.id}')
 
 
-def create_custom_gift(session: scoped_session, price: float):
+def create_custom_gift(session: scoped_session, price: Decimal):
     name = 'Custom gift'
     price = int(round(price, 2) * 100)
     custom_item = Item(
