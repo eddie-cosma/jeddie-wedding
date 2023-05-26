@@ -29,20 +29,27 @@ function hide_payment_modal() {
     }
 }
 
-function update_reservation_submit() {
-    let any_coming = false
-    let rsvps = document.querySelectorAll("input[type=radio][id$='_no'], input[type=radio][id$='_yes']")
+function update_reservation_submit(lang = 'en') {
+    let lang_next = 'Next';
+    let lang_submit = 'Submit';
+    if (lang === 'ro') {
+        lang_next = 'Următorul';
+        lang_submit = 'Trimite';
+    }
+
+    let any_coming = false;
+    let rsvps = document.querySelectorAll("input[type=radio][id$='_no'], input[type=radio][id$='_yes']");
     for (let i = 0; i < rsvps.length; i++) {
         if (rsvps[i].checked === true && rsvps[i].value === "1") {
-            any_coming = true
+            any_coming = true;
         }
     }
 
-    let submit_button = document.getElementById("next_submit")
+    let submit_button = document.getElementById("next_submit");
     if (any_coming === true) {
-        submit_button.value = 'Next'
+        submit_button.value = lang_next;
     }
     else {
-        submit_button.value = 'Submit'
+        submit_button.value = lang_submit;
     }
 }

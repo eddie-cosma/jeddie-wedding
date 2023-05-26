@@ -4,16 +4,20 @@
     <h1>{{ guest.first_name }} {{ guest.last_name }}</h1>
     <form name="rsvp_form" action="" method="post">
         {% if guest.is_plus_one %}
-            <h2><label for="first_name">Name</label></h2>
-            <input type="text" name="first_name" id="first_name" placeholder="First" maxlength="30" {% if guest.finalized %}value="{{ guest.first_name }}"{% endif %} required> <input type="text" name="last_name" id="last_name" placeholder="Last" maxlength="30" {% if guest.finalized %}value="{{ guest.last_name }}"{% endif %} required>
+            <h2><label for="first_name">{{ lang_rsvp_name }}</label></h2>
+            <input type="text" name="first_name" id="first_name" placeholder="{{ lang_rsvp_first_placeholder }}" maxlength="30" {% if guest.finalized %}value="{{ guest.first_name }}"{% endif %} required> <input type="text" name="last_name" id="last_name" placeholder="{{ lang_rsvp_last_placeholder }}" maxlength="30" {% if guest.finalized %}value="{{ guest.last_name }}"{% endif %} required>
         {% endif %}
-        <h2>Meal choice</h2>
+        <h2>{{ lang_rsvp_meal_choice }}</h2>
         {% for meal in meals %}
-            <input type="radio" id="meal_{{ meal.id }}" name="meal" value="{{ meal.id }}" required {% if meal == guest.meal %}checked{% endif %}> <label for="meal_{{ meal.id }}">{{ meal.name }}</label><br>
+            {% if lang__ == 'ro' %}
+                <input type="radio" id="meal_{{ meal.id }}" name="meal" value="{{ meal.id }}" required {% if meal == guest.meal %}checked{% endif %}> <label for="meal_{{ meal.id }}">{{ meal.name_ro }}</label><br>
+            {% else %}
+                <input type="radio" id="meal_{{ meal.id }}" name="meal" value="{{ meal.id }}" required {% if meal == guest.meal %}checked{% endif %}> <label for="meal_{{ meal.id }}">{{ meal.name }}</label><br>
+            {% endif %}
         {% endfor %}
-        <h2><label for="dietary_restriction">Dietary restrictions</label></h2><textarea name="dietary_restriction" id="dietary_restriction" rows="3" cols="40" maxlength="140" placeholder="I have no dietary restrictions.">{% if guest.dietary_restriction %}{{ guest.dietary_restriction }}{% endif %}</textarea>
-        <h2><label for="song_choice">Song choice</label></h2>
+        <h2><label for="dietary_restriction">{{ lang_rsvp_dietary_restrictions }}</label></h2><textarea name="dietary_restriction" id="dietary_restriction" rows="3" cols="40" maxlength="140" placeholder="{{ lang_rsvp_dietary_placeholder }}">{% if guest.dietary_restriction %}{{ guest.dietary_restriction }}{% endif %}</textarea>
+        <h2><label for="song_choice">{{ lang_rsvp_song_choice}}</label></h2>
         <input type="text" name="song_choice" id="song_choice" maxlength="100" {% if guest.song_choice %}value="{{ guest.song_choice }}"{% endif %}> <br>
-        <input type="submit" value="{{ lang_submit }}">
+        <input type="submit" value="{{ lang_next }}">
     </form>
 {% endblock %}

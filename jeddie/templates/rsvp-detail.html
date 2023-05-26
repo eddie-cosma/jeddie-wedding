@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}{{ lang_rsvp }}{% endblock %}
 {% block content %}
-    <h1>Reservation</h1>
+    <h1>{{ lang_rsvp_reservation }}</h1>
     <form name="rsvp_form" action="" method="post">
         {% for guest in party.guests %}
             <h2>{{ guest.first_name }} {{ guest.last_name }}</h2>
-            <input type="radio" id="{{ guest.id }}_yes" name="{{ guest.id }}" value="1" {% if guest.attending == True %}checked{% endif %} required onchange="update_reservation_submit()"> <label for="{{ guest.id }}_yes">Attending</label> <br>
-            <input type="radio" id="{{ guest.id }}_no" name="{{ guest.id }}" value="0" {% if guest.attending == False %}checked{% endif %} required onchange="update_reservation_submit()"> <label for="{{ guest.id }}_no">Not Attending</label> <br>
+            <input type="radio" id="{{ guest.id }}_yes" name="{{ guest.id }}" value="1" {% if guest.attending == True %}checked{% endif %} required onchange="update_reservation_submit('{{ lang__ }}')"> <label for="{{ guest.id }}_yes">{{ lang_rsvp_attending }}</label> <br>
+            <input type="radio" id="{{ guest.id }}_no" name="{{ guest.id }}" value="0" {% if guest.attending == False %}checked{% endif %} required onchange="update_reservation_submit('{{ lang__ }}')"> <label for="{{ guest.id }}_no">{{ lang_rsvp_not_attending }}</label> <br>
         {% endfor %}
         <input type="submit" id="next_submit" value="{{ lang_submit }}">
     </form>
 
-    <script>update_reservation_submit()</script>
+    <script>update_reservation_submit('{{ lang__ }}')</script>
 {% endblock %}
