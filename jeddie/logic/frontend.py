@@ -27,12 +27,6 @@ def get_unfinalized_guest(session: scoped_session, party: Party):
                                       Guest.finalized == False).first()
 
 
-def more_guests_for_detail(session: scoped_session, party: Party):
-    return session.query(Guest).where(Guest.party == party,
-                                      Guest.attending == True,
-                                      Guest.finalized == False).length()
-
-
 def update_reservation(guest: Guest, response: str):
     response = bool(int(response))
     guest.attending = response
