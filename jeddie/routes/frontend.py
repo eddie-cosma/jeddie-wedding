@@ -95,7 +95,7 @@ def rsvp_detail(party_id: str):
             return redirect(url_for('jeddie.rsvp_detail_guest',
                                     party_id=party_id, guest_id=next_guest.id), 302)
         else:
-            flash('Thank you for your reservation')  # TODO: internationalize
+            flash(g.language.get('lang_rsvp_thank_you'))
             return redirect(url_for('jeddie.rsvp'), 302)
 
     if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
@@ -119,7 +119,7 @@ def rsvp_detail_guest(party_id: str, guest_id: int):
             first_name = request.form.get('first_name', None)
             last_name = request.form.get('last_name', None)
             if not first_name or not last_name:
-                flash('Please enter your first and last name.')  # TODO: internationalize
+                flash(g.language.get('lang_rsvp_missing_name'))
                 error = True
             else:
                 guest.first_name = first_name
@@ -128,7 +128,7 @@ def rsvp_detail_guest(party_id: str, guest_id: int):
         dietary_restriction = request.form.get('dietary_restriction', None)
         song_choice = request.form.get('song_choice', None)
         if not chosen_meal:
-            flash('Please select a meal option.')  # TODO: internationalize
+            flash(g.language.get('lang_rsvp_missing_meal'))
             error = True
 
         if not error:
@@ -142,7 +142,7 @@ def rsvp_detail_guest(party_id: str, guest_id: int):
             return redirect(url_for('jeddie.rsvp_detail_guest',
                                     party_id=party_id, guest_id=next_guest.id), 302)
         else:
-            flash('Thank you for your reservation')  # TODO: internationalize
+            flash(g.language.get('lang_rsvp_thank_you'))
             return redirect(url_for('jeddie.rsvp'), 302)
 
     meals = session.query(Meal).all()

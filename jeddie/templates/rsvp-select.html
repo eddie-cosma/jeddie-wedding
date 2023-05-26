@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ lang_rsvp }}{% endblock %}
 {% block content %}
-    <p>Please select your party</p>
+    <h1>{{ lang_rsvp_select_party }}</h1>
     <ul>
     {% for party in parties %}
         <li><a href="{{ url_for('jeddie.rsvp_detail', party_id=party.uuid) }}">{{ party.name }}</a></li>
