@@ -117,17 +117,22 @@ def rsvp_detail_guest(party_id: str, guest_id: int):
     if request.method == 'POST':
         error = False
         if guest.is_plus_one:
-            first_name = request.form.get('first_name', None)
-            last_name = request.form.get('last_name', None)
+            first_name = request.form.get('first_name', None, type=str)
+            last_name = request.form.get('last_name', None, type=str)
             if not first_name or not last_name:
                 flash(g.language.get('lang_rsvp_missing_name'))
                 error = True
             else:
-                guest.first_name = first_name
-                guest.last_name = last_name
+                guest.first_name = first_name[0:30]
+                guest.last_name = last_name[0:30]
         chosen_meal = request.form.get('meal', None)
-        dietary_restriction = request.form.get('dietary_restriction', None)
-        song_choice = request.form.get('song_choice', None)
+        dietary_restriction = request.form.get('dietary_restriction', None, type=str)
+        if dietary_restriction:
+            dietary_restriction = dietary_restriction[0:140]
+        song_choice = request.form.get('song_choice', None, type=str)
+        if song_choice:
+            song_choice = song_choice[0:100]
+
         if not chosen_meal:
             flash(g.language.get('lang_rsvp_missing_meal'))
             error = True
@@ -139,12 +144,12 @@ def rsvp_detail_guest(party_id: str, guest_id: int):
             guest.finalized = True
             session.commit()
 
-        if next_guest := get_unfinalized_guest(session, party):
-            return redirect(url_for('jeddie.rsvp_detail_guest',
-                                    party_id=party_id, guest_id=next_guest.id), 302)
-        else:
-            flash(g.language.get('lang_rsvp_thank_you'))
-            return redirect(url_for('jeddie.rsvp'), 302)
+            if next_guest := get_unfinalized_guest(session, party):
+                return redirect(url_for('jeddie.rsvp_detail_guest',
+                                        party_id=party_id, guest_id=next_guest.id), 302)
+            else:
+                flash(g.language.get('lang_rsvp_thank_you'))
+                return redirect(url_for('jeddie.rsvp'), 302)
 
     meals = session.query(Meal).all()
     return render_template('rsvp-detail-guest.html', guest=guest, party=party, meals=meals, **g.language)

@@ -30,7 +30,11 @@ def get_unfinalized_guest(session: scoped_session, party: Party):
 
 
 def update_reservation(guest: Guest, response: str):
-    response = bool(int(response))
+    try:
+        response = bool(int(response))
+    except ValueError:
+        return redirect(url_for('jeddie.rsvp'), 302)
+
     guest.attending = response
     if not response:
         guest.finalized = True
