@@ -1,7 +1,7 @@
 import json
 import os
 
-from exceptions import MissingConfigException
+from exceptions.exceptions import MissingConfigException
 
 CONFIG_PATH = os.getenv('CONFIG_PATH')
 if not CONFIG_PATH:
