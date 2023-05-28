@@ -39,6 +39,9 @@ class GuestRSVP:
         self.guest.finalized = not attending_yn
         self._session.commit()
 
+        if not self.guest.attending:
+            log_to_email(self._rsvp_email_message())
+
     def set_rsvp_details(self, first_name: str | None, last_name: str | None, meal_id: int | None,
                          dietary_restriction: str | None, song_choice: str | None):
         if self.guest.is_plus_one:
@@ -59,8 +62,24 @@ class GuestRSVP:
         self.guest.finalized = True
         self._session.commit()
 
+        log_to_email(self._rsvp_email_message())
+
     def _guest_in_party(self):
         return self.guest in self.party.guests
+
+    def _rsvp_email_message(self) -> str:
+        if self.guest.attending:
+            message = (
+                f'{self.guest.first_name} {self.guest.last_name} indicated he/she WILL attend the wedding.\n\n'
+                f'Party: {self.party.name}\n'
+                f'Meal: {self.guest.meal.name}\n'
+                f'Dietary restriction(s): {self.guest.dietary_restriction}\n'
+                f'Song request: {self.guest.song_choice}'
+            )
+        else:
+            message = f'{self.guest.first_name} {self.guest.last_name} indicated he/she will NOT attend the wedding.'
+
+        return message
 
 
 def get_name_matches(session: scoped_session, search_term: str) -> list[Guest] | None:
