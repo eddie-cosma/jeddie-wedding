@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
 from . import Base
 from .helpers import generate_uuid
@@ -27,6 +27,12 @@ class Party(Base):
     name = Column(String, nullable=False)
     uuid = Column(String, nullable=False, default=generate_uuid)
     guests = relationship('Guest', back_populates='party')
+
+    def get_next_unfinalized_guest(self) -> Guest | None:
+        session = Session.object_session(self)
+        return session.query(Guest).where(Guest.party == self,
+                                          Guest.attending == True,
+                                          Guest.finalized == False).first()
 
 
 class Meal(Base):

@@ -119,9 +119,11 @@ def test_rsvp_missing_name_response(client):
         'dietary_restrictions': '',
         'song_choice': ''
     }
+    response = client.post('/en/rsvp_detail/e8ea4d4d-c6ae-4b23-95a3-e91cc511521f/6', data=payload)
+    assert response.status_code == 302
+
     response = client.post('/en/rsvp_detail/e8ea4d4d-c6ae-4b23-95a3-e91cc511521f/6', data=payload, follow_redirects=True)
-    assert response.status_code == 200
-    assert '<h1>Guest of James Doe</h1>' in response.text
+    assert '<h1>RSVP Search</h1>' in response.text
     assert 'Please enter your first and last name.' in response.text
 
 
@@ -134,8 +136,10 @@ def test_rsvp_missing_meal_response(client):
         'song_choice': ''
     }
     response = client.post('/en/rsvp_detail/e8ea4d4d-c6ae-4b23-95a3-e91cc511521f/6', data=payload)
-    assert response.status_code == 200
-    assert '<h1>First Last</h1>' in response.text
+    assert response.status_code == 302
+
+    response = client.post('/en/rsvp_detail/e8ea4d4d-c6ae-4b23-95a3-e91cc511521f/6', data=payload, follow_redirects=True)
+    assert '<h1>RSVP Search</h1>' in response.text
     assert 'Please select a meal option.' in response.text
 
 

@@ -7,8 +7,8 @@ from sqlalchemy.sql import func
 
 from database import get_db
 from database.model import Guest, Party, Meal, Item, Gift
-from logic.frontend import get_name_matches, get_unfinalized_guest, update_reservation,\
-    is_item_available, record_gift, create_custom_gift
+from exceptions.exceptions import InvalidRSVPException
+from logic.frontend import get_name_matches, is_item_available, record_gift, create_custom_gift, GuestRSVP
 from middleware.recaptcha import verify_recaptcha
 from middleware.stripe import create_intent, get_intent_metadata
 
@@ -60,99 +60,73 @@ def rsvp():
 def rsvp_search():
     recaptcha_token = request.form.get('g-recaptcha-response', None)
     if not verify_recaptcha(recaptcha_token, request.remote_addr):
-        flash(g.language.get('lang_invalid_captcha_code'))
-        return redirect(url_for('jeddie.rsvp'), 302)
+        raise InvalidRSVPException('lang_invalid_captcha_code')
 
     search_term = request.form.get('name', None)
     if not search_term:
-        return redirect(url_for('jeddie.rsvp'), 302)
+        raise InvalidRSVPException
 
     session = get_db()
     match get_name_matches(session, search_term):
         case []:
-            flash(g.language.get('lang_rsvp_no_results'))
-            return redirect(url_for('jeddie.rsvp'), 302)
+            raise InvalidRSVPException('lang_rsvp_no_results')
         case [single_match]:
             return redirect(url_for('jeddie.rsvp_detail', party_id=single_match.uuid))
         case [*multiple_matches]:
             return render_template('rsvp-select.html', parties=multiple_matches, **g.language)
         case _:
-            return redirect(url_for('jeddie.rsvp'), 302)
+            raise InvalidRSVPException
 
 
 @bp.route('/rsvp_detail/<string:party_id>', methods=['GET', 'POST'])
 def rsvp_detail(party_id: str):
     session = get_db()
-    if request.method == 'POST':
-        party = session.query(Party).where(Party.uuid == party_id).one_or_none()
-        for guest_id, attending in request.form.items():
-            guest = session.query(Guest).where(Guest.id == guest_id).one_or_none()
-            if not guest or not party or guest not in party.guests:
-                redirect(url_for('jeddie.rsvp'), 302)
-            update_reservation(guest, attending)
-        session.commit()
+    party = session.query(Party).where(Party.uuid == party_id).one_or_none()
 
-        if next_guest := get_unfinalized_guest(session, party):
-            return redirect(url_for('jeddie.rsvp_detail_guest',
-                                    party_id=party_id, guest_id=next_guest.id), 302)
+    if not party:
+        raise InvalidRSVPException
+
+    if request.method == 'POST':
+        for guest_id, attending_yn in request.form.items():
+            guest_rsvp = GuestRSVP(party, guest_id)
+            guest_rsvp.respond_to_rsvp(attending_yn)
+
+        if next_guest := party.get_next_unfinalized_guest():
+            return redirect(url_for('jeddie.rsvp_detail_guest', party_id=party_id, guest_id=next_guest.id), 302)
         else:
             flash(g.language.get('lang_rsvp_thank_you'))
-            return redirect(url_for('jeddie.rsvp'), 302)
+            return redirect(url_for('jeddie.rsvp'))
 
-    if party := session.query(Party).where(Party.uuid == party_id).one_or_none():
-        return render_template('rsvp-detail.html', party=party, **g.language)
-    else:
-        return redirect(url_for('jeddie.rsvp'), 302)
+    return render_template('rsvp-detail.html', party=party, **g.language)
 
 
 @bp.route('/rsvp_detail/<string:party_id>/<int:guest_id>', methods=['GET', 'POST'])
 def rsvp_detail_guest(party_id: str, guest_id: int):
     session = get_db()
     party = session.query(Party).where(Party.uuid == party_id).one_or_none()
-    guest = session.query(Guest).where(Guest.id == guest_id).one_or_none()
 
-    if not guest or not party or guest not in party.guests:
-        return redirect(url_for('jeddie.rsvp'), 302)
+    if not party:
+        raise InvalidRSVPException
+
+    guest_rsvp = GuestRSVP(party, guest_id)
 
     if request.method == 'POST':
-        error = False
-        if guest.is_plus_one:
-            first_name = request.form.get('first_name', None, type=str)
-            last_name = request.form.get('last_name', None, type=str)
-            if not first_name or not last_name:
-                flash(g.language.get('lang_rsvp_missing_name'))
-                error = True
-            else:
-                guest.first_name = first_name[0:30]
-                guest.last_name = last_name[0:30]
-        chosen_meal = request.form.get('meal', None)
+        first_name = request.form.get('first_name', None, type=str)
+        last_name = request.form.get('last_name', None, type=str)
+        chosen_meal = request.form.get('meal', None, type=int)
         dietary_restriction = request.form.get('dietary_restriction', None, type=str)
-        if dietary_restriction:
-            dietary_restriction = dietary_restriction[0:140]
         song_choice = request.form.get('song_choice', None, type=str)
-        if song_choice:
-            song_choice = song_choice[0:100]
 
-        if not chosen_meal:
-            flash(g.language.get('lang_rsvp_missing_meal'))
-            error = True
+        guest_rsvp.set_rsvp_details(first_name, last_name, chosen_meal, dietary_restriction, song_choice)
 
-        if not error:
-            guest.meal_id = chosen_meal
-            guest.dietary_restriction = dietary_restriction
-            guest.song_choice = song_choice
-            guest.finalized = True
-            session.commit()
-
-            if next_guest := get_unfinalized_guest(session, party):
-                return redirect(url_for('jeddie.rsvp_detail_guest',
-                                        party_id=party_id, guest_id=next_guest.id), 302)
-            else:
-                flash(g.language.get('lang_rsvp_thank_you'))
-                return redirect(url_for('jeddie.rsvp'), 302)
+        if next_guest := party.get_next_unfinalized_guest():
+            return redirect(url_for('jeddie.rsvp_detail_guest', party_id=party_id, guest_id=next_guest.id), 302)
+        else:
+            flash(g.language.get('lang_rsvp_thank_you'))
+            return redirect(url_for('jeddie.rsvp'), 302)
 
     meals = session.query(Meal).all()
-    return render_template('rsvp-detail-guest.html', guest=guest, party=party, meals=meals, **g.language)
+    return render_template('rsvp-detail-guest.html', guest=guest_rsvp.guest, party=party, meals=meals, **g.language)
 
 
 @bp.route('/photos')
