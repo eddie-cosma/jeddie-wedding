@@ -1,7 +1,5 @@
 from decimal import Decimal
 
-import stripe
-from flask import redirect, url_for, g, flash
 from sqlalchemy.sql import func
 from sqlalchemy.orm.scoping import scoped_session
 
