@@ -1,0 +1,3 @@
+First name,Last name,Party name,Attending?,Meal,Dietary restrictions,Song request,Is plus one?,Finalized?
+{% for guest in guests %}{{ guest.first_name }},{{ guest.last_name }},{{ guest.party.name }},{{ guest.attending }},{{ guest.meal.name }},{{ guest.dietary_restriction }},{{ guest.song_choice }},{{ guest.is_plus_one }},{{ guest.finalized }}
+{% endfor %}

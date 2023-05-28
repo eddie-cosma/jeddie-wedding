@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeddie Wedding RSVP List</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        table, tr, th, td {
+            border: 1px solid #000000;
+            border-collapse: collapse;
+            padding: 2px 6px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h1>RSVP Responses</h1>
+<p><a href="{{ url_for('jeddie_backend.rsvp_responses', csv='') }}">Download (csv)</a></p>
+<table>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Party name</th>
+        <th>Attending?</th>
+        <th>Meal</th>
+        <th>Dietary restrictions</th>
+        <th>Song request</th>
+        <th>Is plus one?</th>
+        <th>Finalized?</th>
+    </tr>
+    {% for guest in guests %}
+        <tr>
+            <td>{{ guest.first_name }}</td>
+            <td>{{ guest.last_name }}</td>
+            <td>{{ guest.party.name }}</td>
+            <td>{{ guest.attending }}</td>
+            <td>{{ guest.meal.name }}</td>
+            <td>{{ guest.dietary_restriction }}</td>
+            <td>{{ guest.song_choice }}</td>
+            <td>{{ guest.is_plus_one }}</td>
+            <td>{{ guest.finalized }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
