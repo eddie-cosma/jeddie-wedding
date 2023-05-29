@@ -288,6 +288,12 @@ div#event-flow svg {
     height: 3vw;
 }
 
+/* RSVP page */
+
+.form-required {
+    color: var(--accent-alt);
+}
+
 /* Photos page */
 
 .gallery-row {

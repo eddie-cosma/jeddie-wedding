@@ -4,10 +4,10 @@
     <h1>{{ guest.first_name }} {{ guest.last_name }}</h1>
     <form name="rsvp_form" action="" method="post">
         {% if guest.is_plus_one %}
-            <h2><label for="first_name">{{ lang_rsvp_name }}</label></h2>
+            <h2><label for="first_name">{{ lang_rsvp_name }}<span class="form-required">*</span></label></h2>
             <input type="text" name="first_name" id="first_name" placeholder="{{ lang_rsvp_first_placeholder }}" maxlength="30" {% if guest.finalized %}value="{{ guest.first_name }}"{% endif %} required> <input type="text" name="last_name" id="last_name" placeholder="{{ lang_rsvp_last_placeholder }}" maxlength="30" {% if guest.finalized %}value="{{ guest.last_name }}"{% endif %} required>
         {% endif %}
-        <h2>{{ lang_rsvp_meal_choice }}</h2>
+        <h2>{{ lang_rsvp_meal_choice }}<span class="form-required">*</span></h2>
         {% for meal in meals %}
             {% if lang__ == 'ro' %}
                 <input type="radio" id="meal_{{ meal.id }}" name="meal" value="{{ meal.id }}" required {% if meal == guest.meal %}checked{% endif %}> <label for="meal_{{ meal.id }}">{{ meal.name_ro }}</label><br>
