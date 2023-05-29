@@ -5,8 +5,10 @@
 {% endblock %}
 {% block content %}
     <h1>{{ lang_rsvp_search }}</h1>
+    {{ lang_rsvp_instructions|safe }}
     <form name="rsvp_form" action="{{ url_for('jeddie.rsvp_search') }}" method="post">
-            <label for="name">{{ lang_rsvp_last_name }}</label> <input type="text" name="name" id="name" value="" required> <br><br>
+            <label for="name">{{ lang_rsvp_name }}</label><br>
+            <input type="text" name="name" id="name" value="" placeholder="{{ lang_rsvp_name_placeholder }}" required> <br><br>
 
         <div class="g-recaptcha" data-sitekey="{{ site_key }}" data-theme="dark"></div>
         <input type="submit" value="{{ lang_submit }}">
