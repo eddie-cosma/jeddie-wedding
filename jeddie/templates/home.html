@@ -2,5 +2,8 @@
 {% block title %}{{ lang_home }}{% endblock %}
 {% block main_id %}landing{% endblock %}
 {% block content %}
-    <div id="announcement">{{ lang_landing_announcement }}</div>
+    <div id="announcement">
+        {{ lang_landing_announcement }}
+        <a href="{{ url_for('jeddie.rsvp') }}"><div id="rsvp_button">{{ lang_rsvp }}</div></a>
+    </div>
 {% endblock %}

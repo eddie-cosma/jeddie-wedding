@@ -255,6 +255,17 @@ div#announcement {
     }
 }
 
+div#rsvp_button {
+    margin: 10px auto 0 auto;
+    padding: 0 0.5em;
+    width: fit-content;
+    background-color: var(--accent);
+    color: var(--alt-background);
+    background-image: url('images/button-bg.png');
+    background-repeat: repeat-x;
+    border: solid var(--alt-background);
+}
+
 /* Wedding page */
 
 div#event-flow {
