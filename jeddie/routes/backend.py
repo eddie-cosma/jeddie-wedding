@@ -23,11 +23,8 @@ def refresh_stripe_qty(payment_intent: str):
     return make_response('Gift not found', 404)
 
 
-@bp.route('/rsvp_responses', methods=['GET'])
+@bp.route('/c5655e5e-8655-43cb-a33f-69685de9ff8b', methods=['GET'])
 def rsvp_responses():
-    if request.remote_addr != socket.gethostbyname('vpn.eddiecosma.com'):
-        return abort(404)
-
     session = get_db()
     guests = session.query(Guest).all()
     if 'csv' in request.args.keys():
