@@ -21,7 +21,7 @@
   "wedding_dress_code": "Cocktail attire",
   "wedding_valet": "Valet parking provided at House of Blues",
   "rsvp_search": "RSVP Search",
-  "rsvp_instructions": "<p>We can’t wait to celebrate with you! Please type in your full name to find your party. If you have problems finding your party, try searching by last name only.</p><p>To ensure a memorable experience for all our guests, we kindly request that only those listed on the invitation are included in your RSVP. Due to space limitations, we are unable to accommodate additional guests beyond those explicitly named. While we love your little ones, this is a child-free wedding.</p><p>If you believe there is an error in your party or name, please reach out to Eddie and Jen.</p>",
+  "rsvp_instructions": "<p>We can’t wait to celebrate with you! Please type in your full name to find your party. If you have problems finding your party, try searching by last name only.</p><p>To ensure a memorable experience for all our guests, we kindly request that only those listed on the invitation are included in your RSVP. Due to space limitations, we are unable to accommodate additional guests beyond those explicitly named. While we love your little ones, this is a child-free wedding.</p><p>If you believe there is an error in your party or name, please reach out to Eddie and Jen.</p><p class=\"rsvp-deadline\">Please RSVP by July 21.</p>",
   "rsvp_name_placeholder": "John Doe",
   "rsvp_reservation": "Reservation",
   "rsvp_select_party": "Please select your party",

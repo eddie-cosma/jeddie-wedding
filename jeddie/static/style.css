@@ -294,6 +294,11 @@ div#event-flow svg {
     color: var(--accent-alt);
 }
 
+.rsvp-deadline {
+    color: var(--accent-alt);
+    font-weight: bold;
+}
+
 /* Photos page */
 
 .gallery-row {
