@@ -147,7 +147,7 @@ def registry():
                 .subquery()
     counts = aliased(Gift, sq, 'purchases')
     items = session.query(Item, (Item.max_quantity - func.coalesce(sq.c.total_purchased, 0)).label('remaining'))\
-                   .join(counts, counts.item_id == Item.id, isouter=True)
+                   .join(counts, counts.item_id == Item.id, isouter=True).order_by(Item.price.desc())
     return render_template("registry.html", items=items, **g.language)
 
 
