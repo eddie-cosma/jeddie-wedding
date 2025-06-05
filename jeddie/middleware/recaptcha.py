@@ -1,3 +1,9 @@
+"""
+reCAPTCHA verification middleware.
+
+This module provides a function to verify reCAPTCHA tokens.
+"""
+
 import json
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -6,12 +12,15 @@ from config import config
 
 
 def verify_recaptcha(token: str, remote_ip: str) -> bool:
-    """Validate the provided reCAPTCHA token.
-    Functionality based on the `reCAPTCHA specification
-    <https://developers.google.com/recaptcha/docs/display>`_.
-    :param token: the token provided from the user request.
-    :param remote_ip: the user's IP address
-    :return: ``True`` if the token is valid, ``False`` otherwise.
+    """
+    Validate the provided reCAPTCHA token.
+    
+    Args:
+        token: The token provided from the user request.
+        remote_ip: The user's IP address
+        
+    Returns:
+        True if the token is valid, False otherwise.
     """
     if config.BYPASS_RECAPTCHA:
         return True

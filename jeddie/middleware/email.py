@@ -1,3 +1,9 @@
+"""
+Email logging middleware.
+
+This module provides a function to log messages to an email address specified in the config.
+"""
+
 import smtplib
 from threading import Thread
 
@@ -13,6 +19,12 @@ def threading(f):
 
 @threading
 def log_to_email(message: str):
+    """
+    Log a message to the email address specified in the config.
+    
+    Args:
+        message: The message to log to the email
+    """
     if config.EMAIL_HOSTNAME and config.EMAIL_USERNAME \
             and config.EMAIL_PASSWORD and config.EMAIL_RECIPIENT:
         smtp = smtplib.SMTP(config.EMAIL_HOSTNAME, 587)
