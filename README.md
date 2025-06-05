@@ -61,11 +61,6 @@ A Flask-based wedding website featuring RSVP management and a gift registry with
    - `RECAPTCHA_SITE_KEY=your_recaptcha_site_key`
    - `RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key`
 
-5. Initialize the database:
-   ```bash
-   flask db upgrade
-   ```
-
 ## Running the Application
 
 ### Development server
